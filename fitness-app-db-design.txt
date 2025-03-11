@@ -1,0 +1,114 @@
+FROM: https://dbdiagram.io/d/fitness-app-db-67d016c975d75cc844a55bcc
+CODE FOR DIAGRAM GENERATION:
+
+"""
+// kullanıcı bilgilerini tutar
+Table member {
+  id int [primary key]  // kimlik numarası
+  mail varchar
+  phone varchar
+  name varchar
+  weight int
+  height int
+  birth_date date
+  gender varchar
+  points float      // kullanıcının kazandığı indirim puanları
+  password varchar
+}
+Ref: member.id < appointment.member_id
+Ref: appointment.id < appointed_plan.appointment_id
+Ref: session.id < appointment.session_id
+
+// kullanıcının oluşturduğu seansa bağlı randevular
+Table appointment {
+  id int [primary key]
+  session_id int // randevunun yapıldığı seans numarası
+  member_id int  // randevuyu yapan kullanıcının numarası
+  status enum  // randevunun durumu ile ilgili bilgi
+    // scheduled, canceled, completed, missed
+  date date
+}
+
+// tüm egzersizler
+Table exercise {
+  exercise_id int [primary key]
+  name varchar
+  met float  // egzersiz yakılan kalori katsayısı
+}
+Ref: exercise.exercise_id < workout_plan.exercise_id
+
+// antrenörler
+Table trainer {
+  id int [primary key]
+  name varchar
+}
+Ref: session.trainer_id < trainer.id
+
+// kullanıcıların randevu oluşturabileceği belli saatler
+// arasındaki seanslar. belli kapasitelere ve türlere sahip.
+// mesela grup, kişisel, antrenör eşliğinde olabilir
+Table session {
+  id int [primary key]
+  type int        // seans tipi
+  total_capacity int
+  current_capacity int
+  date date
+  start time
+  end time
+  trainer_id int  // seans ile ilişkilendirilmiş antrenör
+    // bireysel seanslar için null olarak girilecektir
+}
+
+// belli bir randevu için seçilmiş egzersizler
+Table appointed_plan {
+  appointment_id int
+  plan_id int   // kullanıcının oluşturduğu planın numarası
+}
+Ref: appointed_plan.plan_id < workout_plan.plan_id
+
+// kullanıcının önceden belirlediği egzersiz planı
+Table workout_plan {
+  plan_id int
+  member_id int
+  exercise_id int
+  reps int    // repetations
+  sets int    // set sayısı
+  weight int  // kaldırılan ağırlık
+}
+Ref: workout_plan.member_id < member.id
+
+// kullanıcı banka kartı
+Table card {
+  title varchar   // uygulama içinde gözükecek kart ismi
+  member_id int
+  number int [primary key]  // kart numarası
+  card_owner varchar    // kart sahibi
+  expire_date date      // kart son kullanım tarihi
+  cvv int   
+}
+Ref: member.id < card.member_id
+
+// kullanıcının yaptığı ödeme işlemleri geçmişini tutar
+Table transactions {
+  member_id int
+  card_number int
+  invoice_id int      // yapılan işlemin fatura numarası
+  total_amount float  // yapılan toplam ödeme miktarı
+  points_used float   // bu ödemenin puanlar ile sağlanmış miktarı
+  date date
+}
+Ref: transactions.member_id < member.id
+Ref: transactions.card_number < card.number
+
+// TODO: ödenen kısım mı sadece puan olsun yoksa toplam mı?
+// kullanıcı yaptığı harcama kadar puan kazanır. 
+// (100TL harcama -> 100 puan kazandırır) 
+// ama 1 puan 5 kuruş gibi indirim yapar
+// kullanıcı puan kullanmayı seçerse önce tüm puanlar
+// kullanılır sonra kalan tutarın ödemesi yapılır
+
+// kalori hesabı
+// vücut kitle indeksi
+// ne kadar hangi egzersiz chart
+// vs...
+"""
