@@ -1,15 +1,15 @@
 INSERT INTO "member" VALUES
-('00000000000', 'admin@example.com', '0000000000', 'admin', 0, 0, '1960-01-01', 0.0, 'admin'),
-('12345678901', 'ali@example.com', '5551234567', 'Ali Yılmaz', 75, 180, '1990-05-15', 120.5, 'password123'),
-('23456789012', 'ayse@example.com', '5309876543', 'Ayşe Demir', 60, 165, '1995-08-22', 95.0, 'securepass'),
-('34567890123', 'mehmet@example.com', '5324567890', 'Mehmet Kara', 85, 175, '1987-11-10', 45.5, 'mehmetpass'),
-('45678901234', 'zeynep@example.com', '5553456789', 'Zeynep Çelik', 55, 160, '2000-02-05', 150.0, 'zeynep123'),
-('56789012345', 'omer@example.com', '5401239876', 'Ömer Aslan', 78, 170, '1992-07-30', 30.0, 'omerpass'),
-('67890123456', 'elif@example.com', '5337654321', 'Elif Şahin', 65, 168, '1998-04-12', 200.0, 'elifsecure'),
-('78901234567', 'burak@example.com', '5559871234', 'Burak Taş', 90, 185, '1985-09-18', 75.0, 'burakpass'),
-('89012345678', 'fatma@example.com', '5302345678', 'Fatma Öz', 58, 162, '1996-12-25', 180.5, 'fatmapass'),
-('90123456789', 'hakan@example.com', '5326789012', 'Hakan Yıldız', 80, 178, '1991-03-14', 60.0, 'hakan123'),
-('01234567890', 'emine@example.com', '5558765432', 'Emine Güneş', 63, 166, '1994-06-28', 220.0, 'eminepass');
+('00000000000', 'admin@example.com', '0000000000', 'admin', 0, 0, '1960-01-01', 0.0, 1, 'admin'),
+('12345678901', 'ali@example.com', '5551234567', 'Ali Yılmaz', 75, 180, '1990-05-15', 120.5, 0, 'password123'),
+('23456789012', 'ayse@example.com', '5309876543', 'Ayşe Demir', 60, 165, '1995-08-22', 95.0, 0, 'securepass'),
+('34567890123', 'mehmet@example.com', '5324567890', 'Mehmet Kara', 85, 175, '1987-11-10', 45.5, 0, 'mehmetpass'),
+('45678901234', 'zeynep@example.com', '5553456789', 'Zeynep Çelik', 55, 160, '2000-02-05', 150.0, 0, 'zeynep123'),
+('56789012345', 'omer@example.com', '5401239876', 'Ömer Aslan', 78, 170, '1992-07-30', 30.0, 0, 'omerpass'),
+('67890123456', 'elif@example.com', '5337654321', 'Elif Şahin', 65, 168, '1998-04-12', 200.0, 0, 'elifsecure'),
+('78901234567', 'burak@example.com', '5559871234', 'Burak Taş', 90, 185, '1985-09-18', 75.0, 0, 'burakpass'),
+('89012345678', 'fatma@example.com', '5302345678', 'Fatma Öz', 58, 162, '1996-12-25', 180.5, 0, 'fatmapass'),
+('90123456789', 'hakan@example.com', '5326789012', 'Hakan Yıldız', 80, 178, '1991-03-14', 60.0, 0, 'hakan123'),
+('01234567890', 'emine@example.com', '5558765432', 'Emine Güneş', 63, 166, '1994-06-28', 220.0, 0, 'eminepass');
 
 INSERT INTO "trainer" VALUES
 (1, 'Ahmet Kaya', '5551112233'),
