@@ -1,7 +1,7 @@
 
 -- Kullanıcı (üye) bilgilerini saklar
 CREATE TABLE "member" (
-  "id" int PRIMARY KEY,		-- Yasal kimlik numarası
+  "id" varchar PRIMARY KEY,		-- Yasal kimlik numarası
   "mail" varchar,
   "phone" varchar,
   "name" varchar,
@@ -36,15 +36,6 @@ CREATE TABLE "session" (
   		-- Seans ile ilişkilendirilmiş antrenör ID'si. Bireysel seanslar için null.
 );
 
--- Kullanıcının belli bir seansa katılmak için oluşturduğu randevu.
-CREATE TABLE "appointment" (
-  "id" int PRIMARY KEY,
-  "session_id" int REFERENCES "session"("id"),
-  "member_id" int REFERENCES "member"("id"),
-  "status" int,				-- Randevu durumu: completed, canceled, missed, scheduled
-  "date" date
-);
-
 -- Egzersizler
 CREATE TABLE "exercise" (
   "id" int PRIMARY KEY,
@@ -54,21 +45,27 @@ CREATE TABLE "exercise" (
 -- Kullanıcının önceden belirlediği egzersiz planı
 CREATE TABLE "workout_plan" (
   "id" int PRIMARY KEY,
-  "member_id" int REFERENCES "member"("id"),
-  "exercise_id" int REFERENCES "exercise"("id"),
   "title" varchar,			-- Egzersiz planının uygulama içindeki adı
+  "member_id" varchar REFERENCES "member"("id")
+);
+
+-- Egzersiz planında bulunan egzersizleri ve kaç kere yapılacaklarının bilgisini tutar.
+CREATE TABLE "workout_plan_exercise" (
+  "workout_plan_id" int REFERENCES "workout_plan"("id"),	
+  "exercise_id" int REFERENCES "exercise"("id"),
   "reps" int,				-- Repetations 
   "sets" int,				-- Set sayısı
   "weight" int,				-- Kaldırılan ağırlık, yoksa sıfır (0)
-  "calories_burnt" int
+  "calories_burnt" int,		-- Tahmini yakılacak  kalori miktarı
+  PRIMARY KEY ("workout_plan_id", "exercise_id")
 );
 
 -- Kullanıcı banka kartı. Bir kullanıcı birden çok kart tanımlayabilir.
 -- Aynı numaralı kart da birden çok kullanıcı tarafından kullanılabilir. 
 CREATE TABLE "card" (
   "title" varchar,			-- Kartın uygulama içinde görünecek adı
-  "member_id" int REFERENCES "member"("id"),
-  "number" int,				-- Kart numarası
+  "member_id" varchar REFERENCES "member"("id"),
+  "number" varchar,			-- Kart numarası
   "card_owner" varchar,		-- Kart sahibi ad bilgileri
   "expire_date" date,		-- Kart SKT
   "cvv" int,
@@ -78,19 +75,36 @@ CREATE TABLE "card" (
 -- Kullanıcının yaptığı ödeme işlemleri geçmişini tutar. Kullanıcı, her seans
 -- randevusu için ödeme yapar.
 CREATE TABLE "transaction" (
-  "member_id" int,
-  "card_number" int,
-  "invoice_id" int,			-- Yapılan işlemin fatura numarası (rasgele oluşturulacak)
-  "total_amount" float,		-- Ödeme işleminin toplam fiyatı
-  "points_used" float,		-- Bu fiyatın ödenmesinde ne kadar puan kullanıldığı
-  "date" date,				-- Ödemenin gerçekleştiği tarih
-  PRIMARY KEY ("member_id", "card_number"),
+  "member_id" varchar,
+  "card_number" varchar,
+  "invoice_id" int PRIMARY KEY,	-- Yapılan işlemin fatura numarası (rasgele oluşturulacak)
+  "total_amount" float,				-- Ödeme işleminin toplam fiyatı
+  "points_used" float,				-- Bu fiyatın ödenmesinde ne kadar puan kullanıldığı
+  "date" date,						-- Ödemenin gerçekleştiği tarih
   FOREIGN KEY ("member_id", "card_number") REFERENCES "card"("member_id", "number") 
 );
 
--- Kullanıcının bir seans için randevusu için seçtiği egzersiz planı
-CREATE TABLE "appointed_workout_plan" (
-  "appointment_id" int REFERENCES "appointment"("id"),
-  "workout_plan_id" int REFERENCES "workout_plan"("id"),
-  PRIMARY KEY ("appointment_id", "workout_plan_id")
+-- Kullanıcının belli bir seansa katılmak için oluşturduğu randevu.
+CREATE TABLE "appointment" (
+  "id" int PRIMARY KEY,
+  "session_id" int REFERENCES "session"("id"),
+  "member_id" varchar REFERENCES "member"("id"),
+  "status" int,				-- Randevu durumu: completed, canceled, missed, scheduled
+  "date" date,
+  "workout_plan_id" int REFERENCES "workout_plan"("id")
+  	-- Kullanıcının bir randevusu için seçtiği egzersiz planı
 );
+
+/*
+// TODO: ödenen kısım mı sadece puan olsun yoksa toplam mı?
+// kullanıcı yaptığı harcama kadar puan kazanır. 
+// (100TL harcama -> 100 puan kazandırır) 
+// ama 1 puan 5 kuruş gibi indirim yapar
+// kullanıcı puan kullanmayı seçerse önce tüm puanlar
+// kullanılır sonra kalan tutarın ödemesi yapılır
+
+// kalori hesabı
+// vücut kitle indeksi
+// ne kadar hangi egzersiz chart
+// vs...
+*/
