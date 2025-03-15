@@ -1,4 +1,5 @@
 INSERT INTO "member" VALUES
+('00000000000', 'admin@example.com', '0000000000', 'admin', 0, 0, '1960-01-01', 0.0, 'admin'),
 ('12345678901', 'ali@example.com', '5551234567', 'Ali Yılmaz', 75, 180, '1990-05-15', 120.5, 'password123'),
 ('23456789012', 'ayse@example.com', '5309876543', 'Ayşe Demir', 60, 165, '1995-08-22', 95.0, 'securepass'),
 ('34567890123', 'mehmet@example.com', '5324567890', 'Mehmet Kara', 85, 175, '1987-11-10', 45.5, 'mehmetpass'),
