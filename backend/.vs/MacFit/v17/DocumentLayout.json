@@ -9,6 +9,22 @@
     {
       "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\userform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,15 +42,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LoginPage.cs [Design]",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\Program.cs",
+              "RelativeDocumentMoniker": "MacFit\\Program.cs",
+              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\Program.cs",
+              "RelativeToolTip": "MacFit\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:09:47.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserForm.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.Designer.cs",
+              "RelativeDocumentMoniker": "MacFit\\UserForm.Designer.cs",
+              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.Designer.cs",
+              "RelativeToolTip": "MacFit\\UserForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMIAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:09:16.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginPage.cs",
               "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs",
               "RelativeDocumentMoniker": "MacFit\\LoginPage.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs [Design]",
-              "RelativeToolTip": "MacFit\\LoginPage.cs [Design]",
+              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs",
+              "RelativeToolTip": "MacFit\\LoginPage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T12:19:44.516Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-03-15T13:08:53.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserForm.cs",
+              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.cs",
+              "RelativeDocumentMoniker": "MacFit\\UserForm.cs",
+              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.cs",
+              "RelativeToolTip": "MacFit\\UserForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:08:40.153Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -46,6 +102,18 @@
               "RelativeToolTip": "MacFit\\UserForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-15T11:17:01.294Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginPage.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs",
+              "RelativeDocumentMoniker": "MacFit\\LoginPage.cs",
+              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs [Design]",
+              "RelativeToolTip": "MacFit\\LoginPage.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T12:19:44.516Z",
               "EditorCaption": " [Design]"
             }
           ]

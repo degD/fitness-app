@@ -36,7 +36,6 @@
             this.WorkoutBtn = new Guna.UI2.WinForms.Guna2Button();
             this.SeansBtn = new Guna.UI2.WinForms.Guna2Button();
             this.UyelikBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.LoginBtn = new Guna.UI2.WinForms.Guna2Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -53,7 +52,6 @@
             this.panel1.Controls.Add(this.WorkoutBtn);
             this.panel1.Controls.Add(this.SeansBtn);
             this.panel1.Controls.Add(this.UyelikBtn);
-            this.panel1.Controls.Add(this.LoginBtn);
             this.panel1.Location = new System.Drawing.Point(0, 1);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 857);
@@ -70,7 +68,7 @@
             this.GOdemelerBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
             this.GOdemelerBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.GOdemelerBtn.ForeColor = System.Drawing.Color.White;
-            this.GOdemelerBtn.Location = new System.Drawing.Point(12, 547);
+            this.GOdemelerBtn.Location = new System.Drawing.Point(12, 526);
             this.GOdemelerBtn.Name = "GOdemelerBtn";
             this.GOdemelerBtn.Size = new System.Drawing.Size(180, 45);
             this.GOdemelerBtn.TabIndex = 3;
@@ -98,7 +96,7 @@
             this.KaloriBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
             this.KaloriBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.KaloriBtn.ForeColor = System.Drawing.Color.White;
-            this.KaloriBtn.Location = new System.Drawing.Point(12, 473);
+            this.KaloriBtn.Location = new System.Drawing.Point(12, 452);
             this.KaloriBtn.Name = "KaloriBtn";
             this.KaloriBtn.Size = new System.Drawing.Size(180, 45);
             this.KaloriBtn.TabIndex = 2;
@@ -115,7 +113,7 @@
             this.YagOraniBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
             this.YagOraniBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.YagOraniBtn.ForeColor = System.Drawing.Color.White;
-            this.YagOraniBtn.Location = new System.Drawing.Point(12, 399);
+            this.YagOraniBtn.Location = new System.Drawing.Point(12, 378);
             this.YagOraniBtn.Name = "YagOraniBtn";
             this.YagOraniBtn.Size = new System.Drawing.Size(180, 45);
             this.YagOraniBtn.TabIndex = 2;
@@ -132,7 +130,7 @@
             this.WorkoutBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
             this.WorkoutBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.WorkoutBtn.ForeColor = System.Drawing.Color.White;
-            this.WorkoutBtn.Location = new System.Drawing.Point(12, 325);
+            this.WorkoutBtn.Location = new System.Drawing.Point(12, 304);
             this.WorkoutBtn.Name = "WorkoutBtn";
             this.WorkoutBtn.Size = new System.Drawing.Size(180, 45);
             this.WorkoutBtn.TabIndex = 2;
@@ -149,7 +147,7 @@
             this.SeansBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
             this.SeansBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.SeansBtn.ForeColor = System.Drawing.Color.White;
-            this.SeansBtn.Location = new System.Drawing.Point(12, 251);
+            this.SeansBtn.Location = new System.Drawing.Point(12, 230);
             this.SeansBtn.Name = "SeansBtn";
             this.SeansBtn.Size = new System.Drawing.Size(180, 45);
             this.SeansBtn.TabIndex = 2;
@@ -166,28 +164,11 @@
             this.UyelikBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
             this.UyelikBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.UyelikBtn.ForeColor = System.Drawing.Color.White;
-            this.UyelikBtn.Location = new System.Drawing.Point(12, 177);
+            this.UyelikBtn.Location = new System.Drawing.Point(12, 156);
             this.UyelikBtn.Name = "UyelikBtn";
             this.UyelikBtn.Size = new System.Drawing.Size(180, 45);
             this.UyelikBtn.TabIndex = 2;
             this.UyelikBtn.Text = "Üyelik Al";
-            // 
-            // LoginBtn
-            // 
-            this.LoginBtn.BackColor = System.Drawing.Color.DimGray;
-            this.LoginBtn.BorderRadius = 1000;
-            this.LoginBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.LoginBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.LoginBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.LoginBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.LoginBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
-            this.LoginBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.LoginBtn.ForeColor = System.Drawing.Color.White;
-            this.LoginBtn.Location = new System.Drawing.Point(12, 103);
-            this.LoginBtn.Name = "LoginBtn";
-            this.LoginBtn.Size = new System.Drawing.Size(180, 45);
-            this.LoginBtn.TabIndex = 1;
-            this.LoginBtn.Text = "Giriş Yap";
             // 
             // pictureBox2
             // 
@@ -212,7 +193,6 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MacFit";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -223,7 +203,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private Guna.UI2.WinForms.Guna2Button LoginBtn;
         private Guna.UI2.WinForms.Guna2Button KaloriBtn;
         private Guna.UI2.WinForms.Guna2Button YagOraniBtn;
         private Guna.UI2.WinForms.Guna2Button WorkoutBtn;
