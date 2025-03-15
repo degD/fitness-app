@@ -9,6 +9,10 @@
 *.vssscc
 .vsconfig
 
+# Visual Studio FileContentIndex
+.vs/**/FileContentIndex/
+*.vsidx
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
