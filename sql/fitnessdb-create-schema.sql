@@ -9,6 +9,7 @@ CREATE TABLE "member" (
   "height" int,
   "birth_date" date,
   "points" float,			-- Kullanıcının kazandığı indirim puanları
+  "type" int,         -- Kullanıcı tipi, 0: normal, 1: admin
   "password" varchar
 );
 
