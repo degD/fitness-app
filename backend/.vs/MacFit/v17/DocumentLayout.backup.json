@@ -1,30 +1,36 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\",
+  "WorkspaceRootPath": "C:\\GameProjects\\fitness-app\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\userform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\gameprojects\\fitness-app\\backend\\macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\users\\alihan\\desktop\\fitness-app\\backend\\macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\gameprojects\\fitness-app\\backend\\macfit\\userform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\gameprojects\\fitness-app\\backend\\macfit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GameProjects\\fitness-app\\sql\\fitnessdb-create-schema.sql||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\GameProjects\\fitness-app\\sql\\test-entries.sql||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|C:\\GameProjects\\fitness-app\\backend\\macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\userform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|c:\\gameprojects\\fitness-app\\backend\\macfit\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|C:\\GameProjects\\fitness-app\\backend\\macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{ECD9553C-B289-4AFF-931B-774436970F54}|MacFit\\MacFit.csproj|solutionrelative:macfit\\loginpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +40,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,78 +48,103 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserForm.Designer.cs",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\UserForm.Designer.cs",
+              "RelativeDocumentMoniker": "MacFit\\UserForm.Designer.cs",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\UserForm.Designer.cs",
+              "RelativeToolTip": "MacFit\\UserForm.Designer.cs",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAAALoAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T18:57:07.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\Program.cs",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\Program.cs",
               "RelativeDocumentMoniker": "MacFit\\Program.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\Program.cs",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\Program.cs",
               "RelativeToolTip": "MacFit\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBUAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAIwBIAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T13:09:47.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserForm.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.Designer.cs",
-              "RelativeDocumentMoniker": "MacFit\\UserForm.Designer.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.Designer.cs",
-              "RelativeToolTip": "MacFit\\UserForm.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMIAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T13:09:16.345Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoginPage.cs",
-              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs",
-              "RelativeDocumentMoniker": "MacFit\\LoginPage.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs",
-              "RelativeToolTip": "MacFit\\LoginPage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T13:08:53.432Z",
+              "WhenOpened": "2025-03-16T17:37:42.57Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "UserForm.cs",
-              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.cs",
-              "RelativeDocumentMoniker": "MacFit\\UserForm.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.cs",
-              "RelativeToolTip": "MacFit\\UserForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T13:08:40.153Z",
+              "Title": "test-entries.sql",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\sql\\test-entries.sql",
+              "RelativeDocumentMoniker": "..\\sql\\test-entries.sql",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\sql\\test-entries.sql",
+              "RelativeToolTip": "..\\sql\\test-entries.sql",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-03-16T17:20:47.314Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.cs",
-              "RelativeDocumentMoniker": "MacFit\\UserForm.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\UserForm.cs [Design]",
-              "RelativeToolTip": "MacFit\\UserForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T11:17:01.294Z",
-              "EditorCaption": " [Design]"
+              "DocumentIndex": 3,
+              "Title": "fitnessdb-create-schema.sql",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\sql\\fitnessdb-create-schema.sql",
+              "RelativeDocumentMoniker": "..\\sql\\fitnessdb-create-schema.sql",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\sql\\fitnessdb-create-schema.sql",
+              "RelativeToolTip": "..\\sql\\fitnessdb-create-schema.sql",
+              "ViewState": "AgIAAEcAAAAAAAAAAADwv0QAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-03-16T17:20:45.873Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "UserForm.cs",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\UserForm.cs",
+              "RelativeDocumentMoniker": "MacFit\\UserForm.cs",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\UserForm.cs",
+              "RelativeToolTip": "MacFit\\UserForm.cs",
+              "ViewState": "AgIAANwAAAAAAAAAAAAgwPEAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-16T17:12:55.461Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminForm.cs [Design]",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\AdminForm.cs",
+              "RelativeDocumentMoniker": "MacFit\\AdminForm.cs",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\AdminForm.cs [Design]",
+              "RelativeToolTip": "MacFit\\AdminForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:25:51.787Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserForm.cs [Design]",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\UserForm.cs",
+              "RelativeDocumentMoniker": "MacFit\\UserForm.cs",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\UserForm.cs [Design]",
+              "RelativeToolTip": "MacFit\\UserForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-15T13:14:22.872Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "LoginPage.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs",
+              "DocumentMoniker": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\LoginPage.cs",
               "RelativeDocumentMoniker": "MacFit\\LoginPage.cs",
-              "ToolTip": "C:\\Users\\alihan\\Desktop\\fitness-app\\backend\\MacFit\\LoginPage.cs [Design]",
+              "ToolTip": "C:\\GameProjects\\fitness-app\\backend\\MacFit\\LoginPage.cs [Design]",
               "RelativeToolTip": "MacFit\\LoginPage.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-15T12:19:44.516Z",
+              "WhenOpened": "2025-03-15T13:14:20.652Z",
               "EditorCaption": " [Design]"
             }
           ]
