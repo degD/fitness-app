@@ -12,13 +12,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Guna.Charts.Interfaces;
+using System.Reflection;
+using NpgsqlTypes;
 
 namespace MacFit
 {
     public partial class UserForm : Form
     {
-        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=1234;Database=fitness_db";
+        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=123456;Database=fitnessdb";
         private string userId;
+
+        private int odemePageNr = 0;
+        private int odemePageNrCount = 0;
+        private List<Odeme> odemeler = new List<Odeme>();
 
         public UserForm(string userId)
         {
@@ -383,6 +389,212 @@ namespace MacFit
             foreach (var entry in exerciseCalories)
                 exerciseDataset.DataPoints.Add(new LPoint(entry.Key, entry.Value));
             exerciseChart.Datasets.Add(exerciseDataset);
+        }
+
+        public class Odeme
+        {
+            public string cardNum;
+            public int invoiceId;
+            public double totalAmount;
+            public double pointsUsed;
+            public NpgsqlTypes.NpgsqlDate date;
+
+            public Odeme(string cardNum, int invoiceId, double totalAmount, double pointsUsed, NpgsqlTypes.NpgsqlDate date)
+            {
+                this.cardNum = cardNum;
+                this.invoiceId = invoiceId;
+                this.totalAmount = totalAmount;
+                this.pointsUsed = pointsUsed;
+                this.date = date;
+            }
+        }
+
+        private void OdemelerNextPageBt_Click(object sender, EventArgs e)
+        {
+            this.odemePageNr++;
+            odemelerPrevPageBt.Enabled = true;
+            if (this.odemePageNr == this.odemePageNrCount - 1)
+            {
+                odemelerNextPageBt.Enabled = false;
+            }
+            else
+            {
+                odemelerNextPageBt.Enabled = true;
+            }
+            LoadOdemelerPage();
+            Console.WriteLine($"Current Page Number: {this.odemePageNr}");
+
+        }
+
+        private void OdemelerPrevPageBt_Click(object sender, EventArgs e)
+        {
+            this.odemePageNr--;
+            odemelerNextPageBt.Enabled = true;
+            if (this.odemePageNr == 0)
+            {
+                odemelerPrevPageBt.Enabled = false;
+            }
+            else
+            {
+                odemelerPrevPageBt.Enabled = true;
+            }
+            LoadOdemelerPage();
+            Console.WriteLine($"Current Page Number: {this.odemePageNr}");
+        }
+
+        readonly Guna2Button odemelerPrevPageBt = new Guna2Button
+        {
+            Text = "Prev",
+            BorderColor = Color.Red,
+            BackColor = Color.Red,
+            BorderThickness = 1,
+            Location = new Point(0, 0),
+            Size = new Size(100, 40),
+            Enabled = false
+        };
+
+        readonly Guna2Button odemelerNextPageBt = new Guna2Button
+        {
+            Text = "Next",
+            BorderColor = Color.Blue,
+            BackColor = Color.Blue,
+            BorderThickness = 1,
+            Location = new Point(100, 0),
+            Size = new Size(100, 40),
+        };
+
+        readonly Label odemelerPageInfoLbl = new Label
+        {
+            Text = "test",
+            Location = new Point(200, 0),
+            Size = new Size(100, 40),
+            TextAlign = ContentAlignment.MiddleCenter,
+        };
+
+        // Main panel for user past payment info
+        readonly Guna2Panel odemelerUserInfoPanel = new Guna2Panel
+        {
+            Size = new Size(800, 1000),
+            BorderColor = Color.Black,
+            BorderThickness = 1,
+            Location = new Point(300, 40)
+        };
+
+        readonly Guna2Panel odemelerUserInfoBtPanel = new Guna2Panel
+        {
+            Size = new Size(300, 40),
+            BorderColor = Color.Black,
+            BorderThickness = 1,
+            Location = new Point(300, 0)
+        };
+
+        private void GOdemelerBtn_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                ClearPanels();
+
+                odemelerNextPageBt.Click += OdemelerNextPageBt_Click;
+                odemelerPrevPageBt.Click += OdemelerPrevPageBt_Click;
+
+                odemelerUserInfoBtPanel.Controls.Add(odemelerPrevPageBt);
+                odemelerUserInfoBtPanel.Controls.Add(odemelerNextPageBt);
+                odemelerUserInfoBtPanel.Controls.Add(odemelerPageInfoLbl);
+                this.Controls.Add(odemelerUserInfoPanel);
+                this.Controls.Add(odemelerUserInfoBtPanel);
+
+
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+                       
+                    odemeler.Clear();
+                    string query = "SELECT card_number, invoice_id, total_amount, points_used, date, member_id FROM Transaction WHERE member_id = @userId";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@userId", this.userId);
+                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string cardNum = reader.GetString(0);
+                                int invoiceId = reader.GetInt32(1);
+                                double totalAmount = reader.GetDouble(2);
+                                double pointsUsed = reader.GetDouble(3);
+                                NpgsqlTypes.NpgsqlDate date = reader.GetDate(4);
+                                odemeler.Add(new Odeme(cardNum, invoiceId, totalAmount, pointsUsed, date));
+                            }
+                            this.odemePageNrCount = 1 + this.odemeler.Count() / 4;
+                            this.odemePageNr = 0;
+                            LoadOdemelerPage();
+                            Console.WriteLine($"count: {this.odemeler.Count()}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex.Message);
+            }
+        }
+
+        private void LoadOdemelerPage()
+        {
+            int page = this.odemePageNr;
+
+            odemelerUserInfoPanel.Controls.Clear(); // Clear all controls from userInfoPanel
+            odemelerPageInfoLbl.Text = $"Page {page + 1} / {this.odemePageNrCount}";
+            for (int i = page * 4; i < page * 4 + 4 && i < this.odemeler.Count; i++)
+            {
+                AddPastPayments(odemelerUserInfoPanel, i % 4, odemeler[i]);
+            }
+        }
+
+        private void AddPastPayments(Guna2Panel userInfoPanel, int index, Odeme odeme)
+        {
+            string cardNum = odeme.cardNum;
+            int invoiceId = odeme.invoiceId;
+            double pointsUsed = odeme.pointsUsed;
+            double totalAmount = odeme.totalAmount;
+            NpgsqlTypes.NpgsqlDate date = odeme.date;
+
+            // Info bar
+            Guna2Panel infoBar = new Guna2Panel
+            {
+                Location = new Point(0, index * 160),
+                Size = new Size(800, 160),
+                BorderColor = Color.Black,
+                BorderThickness = 1,
+                AutoSize = true,
+            };
+
+            Label lbInvoice = new Label { Text = $"Invoice {invoiceId}", Location = new Point(20, 20) };
+            Label lbTotalAmount = new Label { Text = $"Payment: {totalAmount}", Location = new Point(20, 50) };
+            Label lbPoints = new Label { Text = $"Points Used: {pointsUsed}", Location = new Point(20, 80) };
+            Label lbCardNum = new Label { Text = $"Card Number: {cardNum}", Location = new Point(20, 110), AutoSize = true };
+            Label lbDate = new Label { Text = $"Date: {date.ToString()}", Location = new Point(20, 140) };
+
+            //// Labels for user fitness information
+            //Label lblHeight = new Label { Text = $"Height: {boy} m", Location = new Point(20, 20), AutoSize = true };
+            //Label lblWeight = new Label { Text = $"Weight: {kilo} kg", Location = new Point(20, 50), AutoSize = true };
+            //Label lblBodyFat = new Label { Text = $"Body Fat: {yagOrani:F2} %", Location = new Point(20, 80), AutoSize = true };
+            //Label lblBMI = new Label { Text = $"BMI: {(kilo / (boy / 100 * boy / 100)):F2}", Location = new Point(20, 110), AutoSize = true };
+            //Label lblIdealWeight = new Label { Text = $"Ideal Weight: {idealKilo:F2} kg", Location = new Point(20, 140), AutoSize = true };
+            //Label lblMetabolicAge = new Label { Text = $"Metabolic Age: {yas}", Location = new Point(20, 170), AutoSize = true };
+
+            infoBar.Controls.Add(lbInvoice);
+            infoBar.Controls.Add(lbTotalAmount);
+            infoBar.Controls.Add(lbPoints);
+            infoBar.Controls.Add(lbCardNum);
+            infoBar.Controls.Add(lbDate);
+            userInfoPanel.Controls.Add(infoBar);
+
+        }
+
+        private void UyelikBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

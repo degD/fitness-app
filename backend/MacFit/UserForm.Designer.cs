@@ -38,6 +38,12 @@
             this.UyelikBtn = new Guna.UI2.WinForms.Guna2Button();
             this.appointmentsDataGridView = new System.Windows.Forms.DataGridView();
             this.caloriesPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.lblHeight = new System.Windows.Forms.Label();
+            this.lblWeight = new System.Windows.Forms.Label();
+            this.lblBodyFat = new System.Windows.Forms.Label();
+            this.lblBMI = new System.Windows.Forms.Label();
+            this.lblIdealWeight = new System.Windows.Forms.Label();
+            this.lblMetabolicAge = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentsDataGridView)).BeginInit();
@@ -74,6 +80,7 @@
             this.GOdemelerBtn.Size = new System.Drawing.Size(180, 45);
             this.GOdemelerBtn.TabIndex = 3;
             this.GOdemelerBtn.Text = "Geçmiş Ödemeler";
+            this.GOdemelerBtn.Click += new System.EventHandler(this.GOdemelerBtn_Click);
             // 
             // pictureBox1
             // 
@@ -172,6 +179,7 @@
             this.UyelikBtn.Size = new System.Drawing.Size(180, 45);
             this.UyelikBtn.TabIndex = 2;
             this.UyelikBtn.Text = "Üyelik Al";
+            this.UyelikBtn.Click += new System.EventHandler(this.UyelikBtn_Click);
             // 
             // appointmentsDataGridView
             // 
@@ -192,13 +200,6 @@
             this.caloriesPanel.Size = new System.Drawing.Size(844, 628);
             this.caloriesPanel.TabIndex = 2;
             this.caloriesPanel.Visible = false;
-            this.lblHeight = new System.Windows.Forms.Label();
-            this.lblWeight = new System.Windows.Forms.Label();
-            this.lblBodyFat = new System.Windows.Forms.Label();
-            this.lblBMI = new System.Windows.Forms.Label();
-            this.lblIdealWeight = new System.Windows.Forms.Label();
-            this.lblMetabolicAge = new System.Windows.Forms.Label();
-
             // 
             // lblHeight
             // 
@@ -206,8 +207,8 @@
             this.lblHeight.Location = new System.Drawing.Point(10, 10);
             this.lblHeight.Name = "lblHeight";
             this.lblHeight.Size = new System.Drawing.Size(46, 17);
+            this.lblHeight.TabIndex = 0;
             this.lblHeight.Text = "Height: ";
-
             // 
             // lblWeight
             // 
@@ -215,8 +216,8 @@
             this.lblWeight.Location = new System.Drawing.Point(10, 40);
             this.lblWeight.Name = "lblWeight";
             this.lblWeight.Size = new System.Drawing.Size(51, 17);
+            this.lblWeight.TabIndex = 0;
             this.lblWeight.Text = "Weight: ";
-
             // 
             // lblBodyFat
             // 
@@ -224,8 +225,8 @@
             this.lblBodyFat.Location = new System.Drawing.Point(10, 70);
             this.lblBodyFat.Name = "lblBodyFat";
             this.lblBodyFat.Size = new System.Drawing.Size(126, 17);
+            this.lblBodyFat.TabIndex = 0;
             this.lblBodyFat.Text = "Body Fat Percentage: ";
-
             // 
             // lblBMI
             // 
@@ -233,8 +234,8 @@
             this.lblBMI.Location = new System.Drawing.Point(10, 100);
             this.lblBMI.Name = "lblBMI";
             this.lblBMI.Size = new System.Drawing.Size(35, 17);
+            this.lblBMI.TabIndex = 0;
             this.lblBMI.Text = "BMI: ";
-
             // 
             // lblIdealWeight
             // 
@@ -242,8 +243,8 @@
             this.lblIdealWeight.Location = new System.Drawing.Point(10, 130);
             this.lblIdealWeight.Name = "lblIdealWeight";
             this.lblIdealWeight.Size = new System.Drawing.Size(85, 17);
+            this.lblIdealWeight.TabIndex = 0;
             this.lblIdealWeight.Text = "Ideal Weight: ";
-
             // 
             // lblMetabolicAge
             // 
@@ -251,6 +252,7 @@
             this.lblMetabolicAge.Location = new System.Drawing.Point(10, 160);
             this.lblMetabolicAge.Name = "lblMetabolicAge";
             this.lblMetabolicAge.Size = new System.Drawing.Size(102, 17);
+            this.lblMetabolicAge.TabIndex = 0;
             this.lblMetabolicAge.Text = "Metabolic Age: ";
             // 
             // UserForm
@@ -270,7 +272,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.appointmentsDataGridView)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
