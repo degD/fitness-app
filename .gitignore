@@ -1,6 +1,6 @@
 # Visual Studio files
 backend/.vs/*
-backend/bin/Debug/*
+backend/MacFit/bin/Debug/*
 *.suo
 *.user
 *.userosscache
