@@ -596,5 +596,21 @@ namespace MacFit
         {
 
         }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            ClearPanels();
+
+            // Info bar
+            Guna2Panel panel = new Guna2Panel
+            {
+                Location = new Point(200, 0),
+                Size = new Size(800, 600),
+                BorderColor = Color.Black,
+                AutoSize = true,
+            };
+            panel.Controls.Add(new ProfileControl(userId, connString));
+            this.Controls.Add(panel);
+        }
     }
 }
