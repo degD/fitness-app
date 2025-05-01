@@ -30,16 +30,23 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.GOdemelerBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.KaloriBtn = new Guna.UI2.WinForms.Guna2Button();
             this.YagOraniBtn = new Guna.UI2.WinForms.Guna2Button();
             this.WorkoutBtn = new Guna.UI2.WinForms.Guna2Button();
             this.SeansBtn = new Guna.UI2.WinForms.Guna2Button();
             this.UyelikBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.appointmentsDataGridView = new System.Windows.Forms.DataGridView();
+            this.caloriesPanel = new Guna.UI2.WinForms.Guna2Panel();
+            this.lblHeight = new System.Windows.Forms.Label();
+            this.lblWeight = new System.Windows.Forms.Label();
+            this.lblBodyFat = new System.Windows.Forms.Label();
+            this.lblBMI = new System.Windows.Forms.Label();
+            this.lblIdealWeight = new System.Windows.Forms.Label();
+            this.lblMetabolicAge = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -73,6 +80,18 @@
             this.GOdemelerBtn.Size = new System.Drawing.Size(180, 45);
             this.GOdemelerBtn.TabIndex = 3;
             this.GOdemelerBtn.Text = "Geçmiş Ödemeler";
+            this.GOdemelerBtn.Click += new System.EventHandler(this.GOdemelerBtn_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Image = global::MacFit.Properties.Resources.macfit_black;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 22);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(170, 63);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
             // 
             // KaloriBtn
             // 
@@ -90,6 +109,7 @@
             this.KaloriBtn.Size = new System.Drawing.Size(180, 45);
             this.KaloriBtn.TabIndex = 2;
             this.KaloriBtn.Text = "Kalori İhtiyacı Hesapla";
+            this.KaloriBtn.Click += new System.EventHandler(this.KaloriBtn_Click);
             // 
             // YagOraniBtn
             // 
@@ -107,6 +127,7 @@
             this.YagOraniBtn.Size = new System.Drawing.Size(180, 45);
             this.YagOraniBtn.TabIndex = 2;
             this.YagOraniBtn.Text = "Yağ Oranı Hesapla";
+            this.YagOraniBtn.Click += new System.EventHandler(this.YagOraniBtn_Click);
             // 
             // WorkoutBtn
             // 
@@ -158,35 +179,89 @@
             this.UyelikBtn.Size = new System.Drawing.Size(180, 45);
             this.UyelikBtn.TabIndex = 2;
             this.UyelikBtn.Text = "Üyelik Al";
+            this.UyelikBtn.Click += new System.EventHandler(this.UyelikBtn_Click);
             // 
-            // pictureBox2
+            // appointmentsDataGridView
             // 
-            this.pictureBox2.Image = global::MacFit.Properties.Resources.DSC02855;
-            this.pictureBox2.Location = new System.Drawing.Point(436, 142);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(670, 421);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
+            this.appointmentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.appointmentsDataGridView.Location = new System.Drawing.Point(200, 50);
+            this.appointmentsDataGridView.Margin = new System.Windows.Forms.Padding(2);
+            this.appointmentsDataGridView.Name = "appointmentsDataGridView";
+            this.appointmentsDataGridView.Size = new System.Drawing.Size(300, 650);
+            this.appointmentsDataGridView.TabIndex = 1;
+            this.appointmentsDataGridView.Visible = false;
+            this.appointmentsDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AppointmentsDataGridView_CellClick);
             // 
-            // pictureBox1
+            // caloriesPanel
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Image = global::MacFit.Properties.Resources.macfit_black;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 22);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(170, 63);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.caloriesPanel.Location = new System.Drawing.Point(460, 11);
+            this.caloriesPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.caloriesPanel.Name = "caloriesPanel";
+            this.caloriesPanel.Size = new System.Drawing.Size(844, 628);
+            this.caloriesPanel.TabIndex = 2;
+            this.caloriesPanel.Visible = false;
+            // 
+            // lblHeight
+            // 
+            this.lblHeight.AutoSize = true;
+            this.lblHeight.Location = new System.Drawing.Point(10, 10);
+            this.lblHeight.Name = "lblHeight";
+            this.lblHeight.Size = new System.Drawing.Size(46, 17);
+            this.lblHeight.TabIndex = 0;
+            this.lblHeight.Text = "Height: ";
+            // 
+            // lblWeight
+            // 
+            this.lblWeight.AutoSize = true;
+            this.lblWeight.Location = new System.Drawing.Point(10, 40);
+            this.lblWeight.Name = "lblWeight";
+            this.lblWeight.Size = new System.Drawing.Size(51, 17);
+            this.lblWeight.TabIndex = 0;
+            this.lblWeight.Text = "Weight: ";
+            // 
+            // lblBodyFat
+            // 
+            this.lblBodyFat.AutoSize = true;
+            this.lblBodyFat.Location = new System.Drawing.Point(10, 70);
+            this.lblBodyFat.Name = "lblBodyFat";
+            this.lblBodyFat.Size = new System.Drawing.Size(126, 17);
+            this.lblBodyFat.TabIndex = 0;
+            this.lblBodyFat.Text = "Body Fat Percentage: ";
+            // 
+            // lblBMI
+            // 
+            this.lblBMI.AutoSize = true;
+            this.lblBMI.Location = new System.Drawing.Point(10, 100);
+            this.lblBMI.Name = "lblBMI";
+            this.lblBMI.Size = new System.Drawing.Size(35, 17);
+            this.lblBMI.TabIndex = 0;
+            this.lblBMI.Text = "BMI: ";
+            // 
+            // lblIdealWeight
+            // 
+            this.lblIdealWeight.AutoSize = true;
+            this.lblIdealWeight.Location = new System.Drawing.Point(10, 130);
+            this.lblIdealWeight.Name = "lblIdealWeight";
+            this.lblIdealWeight.Size = new System.Drawing.Size(85, 17);
+            this.lblIdealWeight.TabIndex = 0;
+            this.lblIdealWeight.Text = "Ideal Weight: ";
+            // 
+            // lblMetabolicAge
+            // 
+            this.lblMetabolicAge.AutoSize = true;
+            this.lblMetabolicAge.Location = new System.Drawing.Point(10, 160);
+            this.lblMetabolicAge.Name = "lblMetabolicAge";
+            this.lblMetabolicAge.Size = new System.Drawing.Size(102, 17);
+            this.lblMetabolicAge.TabIndex = 0;
+            this.lblMetabolicAge.Text = "Metabolic Age: ";
             // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientSize = new System.Drawing.Size(1315, 693);
-            this.Controls.Add(this.pictureBox2);
+            this.ClientSize = new System.Drawing.Size(1315, 731);
+            this.Controls.Add(this.caloriesPanel);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "UserForm";
@@ -194,8 +269,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MacFit";
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.appointmentsDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -209,8 +284,14 @@
         private Guna.UI2.WinForms.Guna2Button SeansBtn;
         private Guna.UI2.WinForms.Guna2Button UyelikBtn;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
         private Guna.UI2.WinForms.Guna2Button GOdemelerBtn;
+        private System.Windows.Forms.DataGridView appointmentsDataGridView;
+        private Guna.UI2.WinForms.Guna2Panel caloriesPanel;
+        private System.Windows.Forms.Label lblHeight;
+        private System.Windows.Forms.Label lblWeight;
+        private System.Windows.Forms.Label lblBodyFat;
+        private System.Windows.Forms.Label lblBMI;
+        private System.Windows.Forms.Label lblIdealWeight;
+        private System.Windows.Forms.Label lblMetabolicAge;
     }
 }
-

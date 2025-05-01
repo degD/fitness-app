@@ -1,5 +1,6 @@
 # Visual Studio files
-.vs/
+backend/.vs/*
+backend/bin/Debug/*
 *.suo
 *.user
 *.userosscache
