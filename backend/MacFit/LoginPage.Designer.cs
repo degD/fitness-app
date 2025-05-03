@@ -33,10 +33,12 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
+            this.heightBox = new Guna.UI2.WinForms.Guna2NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.weightBox = new Guna.UI2.WinForms.Guna2NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.idBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -57,18 +59,16 @@
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
             this.label11 = new System.Windows.Forms.Label();
             this.guna2TextBox9 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.weightBox = new Guna.UI2.WinForms.Guna2NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.heightBox = new Guna.UI2.WinForms.Guna2NumericUpDown();
+            this.LoginIdBox = new Guna.UI2.WinForms.Guna2TextBox();
+            this.LoginPasswordBox = new Guna.UI2.WinForms.Guna2TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.guna2TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.heightBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weightBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.weightBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.heightBox)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -113,10 +113,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.LoginPasswordBox);
+            this.tabPage1.Controls.Add(this.LoginIdBox);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.guna2TextBox2);
-            this.tabPage1.Controls.Add(this.guna2TextBox1);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.guna2Button1);
             this.tabPage1.Location = new System.Drawing.Point(4, 44);
@@ -148,42 +148,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "TC Kimlik Numarası";
             // 
-            // guna2TextBox2
-            // 
-            this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox2.DefaultText = "";
-            this.guna2TextBox2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TextBox2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.Location = new System.Drawing.Point(512, 185);
-            this.guna2TextBox2.Name = "guna2TextBox2";
-            this.guna2TextBox2.PlaceholderText = "";
-            this.guna2TextBox2.SelectedText = "";
-            this.guna2TextBox2.Size = new System.Drawing.Size(271, 36);
-            this.guna2TextBox2.TabIndex = 3;
-            // 
-            // guna2TextBox1
-            // 
-            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox1.DefaultText = "";
-            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(512, 116);
-            this.guna2TextBox1.Name = "guna2TextBox1";
-            this.guna2TextBox1.PlaceholderText = "";
-            this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.Size = new System.Drawing.Size(271, 36);
-            this.guna2TextBox1.TabIndex = 2;
-            // 
             // guna2Button1
             // 
             this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -198,6 +162,7 @@
             this.guna2Button1.Size = new System.Drawing.Size(180, 45);
             this.guna2Button1.TabIndex = 0;
             this.guna2Button1.Text = "Giriş Yap";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // tabPage2
             // 
@@ -229,6 +194,52 @@
             this.tabPage2.Text = "Kaydol";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(24, 273);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(38, 13);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "Height";
+            // 
+            // heightBox
+            // 
+            this.heightBox.BackColor = System.Drawing.Color.Transparent;
+            this.heightBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.heightBox.Location = new System.Drawing.Point(138, 257);
+            this.heightBox.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.heightBox.Name = "heightBox";
+            this.heightBox.Size = new System.Drawing.Size(100, 36);
+            this.heightBox.TabIndex = 25;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(24, 191);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 13);
+            this.label6.TabIndex = 24;
+            this.label6.Text = "Weight";
+            // 
+            // weightBox
+            // 
+            this.weightBox.BackColor = System.Drawing.Color.Transparent;
+            this.weightBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.weightBox.Location = new System.Drawing.Point(138, 175);
+            this.weightBox.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.weightBox.Name = "weightBox";
+            this.weightBox.Size = new System.Drawing.Size(100, 36);
+            this.weightBox.TabIndex = 23;
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -241,7 +252,6 @@
             // 
             // idBox
             // 
-            this.idBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.idBox.DefaultText = "";
             this.idBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.idBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
@@ -269,7 +279,6 @@
             // 
             // passwordBox
             // 
-            this.passwordBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.passwordBox.DefaultText = "";
             this.passwordBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.passwordBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
@@ -350,7 +359,6 @@
             // 
             // phoneBox
             // 
-            this.phoneBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.phoneBox.DefaultText = "";
             this.phoneBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.phoneBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
@@ -389,7 +397,6 @@
             // 
             // nameBox
             // 
-            this.nameBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.nameBox.DefaultText = "";
             this.nameBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.nameBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
@@ -407,7 +414,6 @@
             // 
             // mailBox
             // 
-            this.mailBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.mailBox.DefaultText = "";
             this.mailBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.mailBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
@@ -487,7 +493,6 @@
             // 
             // guna2TextBox9
             // 
-            this.guna2TextBox9.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.guna2TextBox9.DefaultText = "";
             this.guna2TextBox9.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.guna2TextBox9.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
@@ -503,53 +508,39 @@
             this.guna2TextBox9.Size = new System.Drawing.Size(200, 36);
             this.guna2TextBox9.TabIndex = 0;
             // 
-            // weightBox
+            // LoginIdBox
             // 
-            this.weightBox.BackColor = System.Drawing.Color.Transparent;
-            this.weightBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.weightBox.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.weightBox.Location = new System.Drawing.Point(138, 175);
-            this.weightBox.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            this.weightBox.Name = "weightBox";
-            this.weightBox.Size = new System.Drawing.Size(100, 36);
-            this.weightBox.TabIndex = 23;
+            this.LoginIdBox.DefaultText = "";
+            this.LoginIdBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.LoginIdBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.LoginIdBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginIdBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginIdBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginIdBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.LoginIdBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginIdBox.Location = new System.Drawing.Point(531, 121);
+            this.LoginIdBox.Name = "LoginIdBox";
+            this.LoginIdBox.PlaceholderText = "";
+            this.LoginIdBox.SelectedText = "";
+            this.LoginIdBox.Size = new System.Drawing.Size(252, 36);
+            this.LoginIdBox.TabIndex = 6;
             // 
-            // label6
+            // LoginPasswordBox
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 191);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 13);
-            this.label6.TabIndex = 24;
-            this.label6.Text = "Weight";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(24, 273);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(38, 13);
-            this.label12.TabIndex = 26;
-            this.label12.Text = "Height";
-            // 
-            // heightBox
-            // 
-            this.heightBox.BackColor = System.Drawing.Color.Transparent;
-            this.heightBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.heightBox.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.heightBox.Location = new System.Drawing.Point(138, 257);
-            this.heightBox.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            this.heightBox.Name = "heightBox";
-            this.heightBox.Size = new System.Drawing.Size(100, 36);
-            this.heightBox.TabIndex = 25;
+            this.LoginPasswordBox.DefaultText = "";
+            this.LoginPasswordBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.LoginPasswordBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.LoginPasswordBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginPasswordBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginPasswordBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginPasswordBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.LoginPasswordBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginPasswordBox.Location = new System.Drawing.Point(531, 190);
+            this.LoginPasswordBox.Name = "LoginPasswordBox";
+            this.LoginPasswordBox.PlaceholderText = "";
+            this.LoginPasswordBox.SelectedText = "";
+            this.LoginPasswordBox.Size = new System.Drawing.Size(252, 36);
+            this.LoginPasswordBox.TabIndex = 7;
             // 
             // LoginPage
             // 
@@ -569,11 +560,11 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.heightBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.weightBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.weightBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.heightBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -587,8 +578,6 @@
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -613,5 +602,7 @@
         private Guna.UI2.WinForms.Guna2NumericUpDown heightBox;
         private System.Windows.Forms.Label label6;
         private Guna.UI2.WinForms.Guna2NumericUpDown weightBox;
+        private Guna.UI2.WinForms.Guna2TextBox LoginPasswordBox;
+        private Guna.UI2.WinForms.Guna2TextBox LoginIdBox;
     }
 }

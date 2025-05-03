@@ -158,5 +158,56 @@ namespace MacFit
         {
 
         }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            // login control  
+            try
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    // 1. Query the hashed password for the given username  
+                    string query = "SELECT password FROM Member WHERE id = @userId";
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@userId", LoginIdBox.Text);
+
+                        object result = cmd.ExecuteScalar();
+
+                        // 2. Check if user exists  
+                        if (result == null)
+                        {
+                            MessageBox.Show("User not found.");
+                            return;
+                        }
+
+                        string storedHash = result.ToString();
+
+                        // 3. Verify the input password against the stored hash  
+                        bool isMatch = BCrypt.Net.BCrypt.Verify(LoginPasswordBox.Text, storedHash);
+
+                        if (isMatch)
+                        {
+                            MessageBox.Show("Login successful.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid password.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private void guna2TextBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
