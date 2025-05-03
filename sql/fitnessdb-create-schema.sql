@@ -96,6 +96,17 @@ CREATE TABLE "appointment" (
   	-- Kullanıcının bir randevusu için seçtiği egzersiz planı
 );
 
+-- Admin'in giriş şifresini hashlenmiş halde tutan tablo
+CREATE TABLE admin_password (
+  id BOOLEAN PRIMARY KEY DEFAULT TRUE CHECK (id), -- always TRUE, only one row can exist
+  password_hash TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+INSERT INTO admin_password (id, password_hash) 
+VALUES (TRUE, '$2a$11$TR7nmf6dw4RQRLqeg3dJ0.8TgfUBwRePM4nv7lURdpAkQD0Co/iEi');
+-- Başlangıç admin şifresi: 'password'
+-- Bundan sonra yeni INSERT yapılamaz. Yalnız UPDATE.
+
 /*
 // TODO: ödenen kısım mı sadece puan olsun yoksa toplam mı?
 // kullanıcı yaptığı harcama kadar puan kazanır. 

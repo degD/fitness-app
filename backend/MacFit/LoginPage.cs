@@ -217,5 +217,49 @@ namespace MacFit
         {
 
         }
+
+        private void guna2Button3_Click(object sender, EventArgs e)
+        {
+            // validate admin password (hashed)
+            try
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    // 1. Query the hashed password for the given username  
+                    string query = "SELECT password_hash FROM admin_password";
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        object result = cmd.ExecuteScalar();
+                        string storedHash = result.ToString();
+
+                        // 3. Verify the input password against the stored hash  
+                        bool isMatch = BCrypt.Net.BCrypt.Verify(AdminPassBox.Text, storedHash);
+
+                        if (isMatch)
+                        {
+                            MessageBox.Show("Admin login successful.");
+
+                            var mainForm = new AdminForm();
+
+                            // Hide current form and open main form
+                            this.Hide();
+
+                            mainForm.FormClosed += (s, args) => this.Close(); // closes login form when main closes
+                            mainForm.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid password.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
     }
 }

@@ -15,6 +15,11 @@ namespace MacFit
         [STAThread]
         static void Main()
         {
+            string plainPassword = "password";
+            string hash = BCrypt.Net.BCrypt.HashPassword(plainPassword);
+            Console.WriteLine(hash);
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginPage("Host=localhost;Port=5432;Username=postgres;Password=123456;Database=fitnessdb"));

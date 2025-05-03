@@ -31,6 +31,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.guna2TabControl1 = new Guna.UI2.WinForms.Guna2TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.LoginPasswordBox = new Guna.UI2.WinForms.Guna2TextBox();
+            this.LoginIdBox = new Guna.UI2.WinForms.Guna2TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
@@ -58,9 +60,8 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
             this.label11 = new System.Windows.Forms.Label();
-            this.guna2TextBox9 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.LoginIdBox = new Guna.UI2.WinForms.Guna2TextBox();
-            this.LoginPasswordBox = new Guna.UI2.WinForms.Guna2TextBox();
+            this.adminPasswordBpx = new Guna.UI2.WinForms.Guna2TextBox();
+            this.AdminPassBox = new Guna.UI2.WinForms.Guna2TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.guna2TabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -127,6 +128,40 @@
             this.tabPage1.Text = "Giriş Yap";
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // LoginPasswordBox
+            // 
+            this.LoginPasswordBox.DefaultText = "";
+            this.LoginPasswordBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.LoginPasswordBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.LoginPasswordBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginPasswordBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginPasswordBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginPasswordBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.LoginPasswordBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginPasswordBox.Location = new System.Drawing.Point(531, 190);
+            this.LoginPasswordBox.Name = "LoginPasswordBox";
+            this.LoginPasswordBox.PlaceholderText = "";
+            this.LoginPasswordBox.SelectedText = "";
+            this.LoginPasswordBox.Size = new System.Drawing.Size(252, 36);
+            this.LoginPasswordBox.TabIndex = 7;
+            // 
+            // LoginIdBox
+            // 
+            this.LoginIdBox.DefaultText = "";
+            this.LoginIdBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.LoginIdBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.LoginIdBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginIdBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.LoginIdBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginIdBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.LoginIdBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.LoginIdBox.Location = new System.Drawing.Point(531, 121);
+            this.LoginIdBox.Name = "LoginIdBox";
+            this.LoginIdBox.PlaceholderText = "";
+            this.LoginIdBox.SelectedText = "";
+            this.LoginIdBox.Size = new System.Drawing.Size(252, 36);
+            this.LoginIdBox.TabIndex = 6;
             // 
             // label2
             // 
@@ -457,9 +492,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.AdminPassBox);
             this.tabPage3.Controls.Add(this.guna2Button3);
             this.tabPage3.Controls.Add(this.label11);
-            this.tabPage3.Controls.Add(this.guna2TextBox9);
             this.tabPage3.Location = new System.Drawing.Point(4, 44);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -481,6 +516,7 @@
             this.guna2Button3.Size = new System.Drawing.Size(180, 45);
             this.guna2Button3.TabIndex = 2;
             this.guna2Button3.Text = "Admin Giriş";
+            this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
             // 
             // label11
             // 
@@ -491,56 +527,39 @@
             this.label11.TabIndex = 1;
             this.label11.Text = "Admin Şifre";
             // 
-            // guna2TextBox9
+            // adminPasswordBpx
             // 
-            this.guna2TextBox9.DefaultText = "";
-            this.guna2TextBox9.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox9.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox9.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox9.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox9.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox9.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.guna2TextBox9.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox9.Location = new System.Drawing.Point(76, 38);
-            this.guna2TextBox9.Name = "guna2TextBox9";
-            this.guna2TextBox9.PlaceholderText = "";
-            this.guna2TextBox9.SelectedText = "";
-            this.guna2TextBox9.Size = new System.Drawing.Size(200, 36);
-            this.guna2TextBox9.TabIndex = 0;
+            this.adminPasswordBpx.DefaultText = "";
+            this.adminPasswordBpx.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.adminPasswordBpx.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.adminPasswordBpx.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.adminPasswordBpx.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.adminPasswordBpx.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.adminPasswordBpx.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.adminPasswordBpx.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.adminPasswordBpx.Location = new System.Drawing.Point(76, 39);
+            this.adminPasswordBpx.Name = "adminPasswordBpx";
+            this.adminPasswordBpx.PlaceholderText = "";
+            this.adminPasswordBpx.SelectedText = "";
+            this.adminPasswordBpx.Size = new System.Drawing.Size(200, 36);
+            this.adminPasswordBpx.TabIndex = 3;
             // 
-            // LoginIdBox
+            // AdminPassBox
             // 
-            this.LoginIdBox.DefaultText = "";
-            this.LoginIdBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.LoginIdBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.LoginIdBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.LoginIdBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.LoginIdBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.LoginIdBox.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.LoginIdBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.LoginIdBox.Location = new System.Drawing.Point(531, 121);
-            this.LoginIdBox.Name = "LoginIdBox";
-            this.LoginIdBox.PlaceholderText = "";
-            this.LoginIdBox.SelectedText = "";
-            this.LoginIdBox.Size = new System.Drawing.Size(252, 36);
-            this.LoginIdBox.TabIndex = 6;
-            // 
-            // LoginPasswordBox
-            // 
-            this.LoginPasswordBox.DefaultText = "";
-            this.LoginPasswordBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.LoginPasswordBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.LoginPasswordBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.LoginPasswordBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.LoginPasswordBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.LoginPasswordBox.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.LoginPasswordBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.LoginPasswordBox.Location = new System.Drawing.Point(531, 190);
-            this.LoginPasswordBox.Name = "LoginPasswordBox";
-            this.LoginPasswordBox.PlaceholderText = "";
-            this.LoginPasswordBox.SelectedText = "";
-            this.LoginPasswordBox.Size = new System.Drawing.Size(252, 36);
-            this.LoginPasswordBox.TabIndex = 7;
+            this.AdminPassBox.DefaultText = "";
+            this.AdminPassBox.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.AdminPassBox.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.AdminPassBox.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.AdminPassBox.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.AdminPassBox.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.AdminPassBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.AdminPassBox.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.AdminPassBox.Location = new System.Drawing.Point(76, 39);
+            this.AdminPassBox.Name = "AdminPassBox";
+            this.AdminPassBox.PlaceholderText = "";
+            this.AdminPassBox.SelectedText = "";
+            this.AdminPassBox.Size = new System.Drawing.Size(200, 36);
+            this.AdminPassBox.TabIndex = 3;
             // 
             // LoginPage
             // 
@@ -597,12 +616,13 @@
         private System.Windows.Forms.TabPage tabPage3;
         private Guna.UI2.WinForms.Guna2Button guna2Button3;
         private System.Windows.Forms.Label label11;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox9;
         private System.Windows.Forms.Label label12;
         private Guna.UI2.WinForms.Guna2NumericUpDown heightBox;
         private System.Windows.Forms.Label label6;
         private Guna.UI2.WinForms.Guna2NumericUpDown weightBox;
         private Guna.UI2.WinForms.Guna2TextBox LoginPasswordBox;
         private Guna.UI2.WinForms.Guna2TextBox LoginIdBox;
+        private Guna.UI2.WinForms.Guna2TextBox adminPasswordBpx;
+        private Guna.UI2.WinForms.Guna2TextBox AdminPassBox;
     }
 }
