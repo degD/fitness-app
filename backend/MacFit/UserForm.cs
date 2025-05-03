@@ -50,6 +50,98 @@ namespace MacFit
             }
         }
 
+        private void WorkoutBtn_Click(object sender, EventArgs e)
+        {
+            ClearPanels();
+
+            Guna2Panel workoutPanel = new Guna2Panel();
+            workoutPanel.Size = new Size(800, 600);
+            workoutPanel.Location = new Point(300, 10);
+            workoutPanel.BorderColor = Color.Black;
+            workoutPanel.BorderThickness = 1;
+            this.Controls.Add(workoutPanel);
+
+            Guna2ComboBox planSelector = new Guna2ComboBox();
+            planSelector.Location = new Point(20, 20);
+            planSelector.Size = new Size(300, 40);
+            workoutPanel.Controls.Add(planSelector);
+
+            DataGridView exercisesGrid = new DataGridView();
+            exercisesGrid.Location = new Point(20, 80);
+            exercisesGrid.Size = new Size(750, 400);
+            exercisesGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            workoutPanel.Controls.Add(exercisesGrid);
+
+            Dictionary<int, string> planMap = new Dictionary<int, string>();
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = "SELECT id, title FROM workout_plan WHERE member_id = @userId";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@userId", userId);
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            string title = reader.GetString(1);
+                            planMap.Add(id, title);
+                            planSelector.Items.Add(title);
+                        }
+                    }
+                }
+            }
+
+            planSelector.SelectedIndexChanged += delegate (object s, EventArgs evt)
+            {
+                string selectedTitle = planSelector.SelectedItem.ToString();
+                int selectedPlanId = -1;
+                foreach (KeyValuePair<int, string> entry in planMap)
+                {
+                    if (entry.Value == selectedTitle)
+                    {
+                        selectedPlanId = entry.Key;
+                        break;
+                    }
+                }
+                if (selectedPlanId != -1)
+                {
+                    LoadExercisesForPlan(selectedPlanId, exercisesGrid);
+                }
+            };
+        }
+
+        private void LoadExercisesForPlan(int planId, DataGridView grid)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Exercise");
+            dt.Columns.Add("Reps");
+            dt.Columns.Add("Sets");
+            dt.Columns.Add("Weight");
+            dt.Columns.Add("Calories Burnt");
+
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = @"SELECT e.name, wpe.reps, wpe.sets, wpe.weight, wpe.calories_burnt FROM workout_plan_exercise wpe JOIN exercise e ON e.id = wpe.exercise_id WHERE wpe.workout_plan_id = @planId";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@planId", planId);
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            dt.Rows.Add(reader.GetString(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4));
+                        }
+                    }
+                }
+            }
+
+            grid.DataSource = dt;
+        }
+
+
         private void YagOraniBtn_Click(object sender, EventArgs e)
         {
             try

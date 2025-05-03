@@ -165,6 +165,7 @@
             this.WorkoutBtn.Size = new System.Drawing.Size(180, 45);
             this.WorkoutBtn.TabIndex = 2;
             this.WorkoutBtn.Text = "Workout Plan";
+            this.WorkoutBtn.Click += new System.EventHandler(this.WorkoutBtn_Click);
             // 
             // SeansBtn
             // 
