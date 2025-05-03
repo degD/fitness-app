@@ -50,6 +50,118 @@ namespace MacFit
             }
         }
 
+        private void SeansBtn_Click(object sender, EventArgs e)
+        {
+            ShowSessionSelector();
+        }
+        private void ShowSessionSelector()
+        {
+            ClearPanels();
+
+            Guna2Panel sessionPanel = new Guna2Panel();
+            sessionPanel.Size = new Size(800, 600);
+            sessionPanel.Location = new Point(300, 10);
+            sessionPanel.BorderColor = Color.Black;
+            sessionPanel.BorderThickness = 1;
+            this.Controls.Add(sessionPanel);
+
+            Label label = new Label();
+            label.Text = "Seans Seç:";
+            label.Location = new Point(20, 20);
+            label.AutoSize = true;
+            sessionPanel.Controls.Add(label);
+
+            Guna2ComboBox sessionSelector = new Guna2ComboBox();
+            sessionSelector.Location = new Point(100, 15);
+            sessionSelector.Size = new Size(300, 40);
+            sessionPanel.Controls.Add(sessionSelector);
+
+            DataGridView sessionDetailsGrid = new DataGridView();
+            sessionDetailsGrid.Location = new Point(20, 70);
+            sessionDetailsGrid.Size = new Size(750, 400);
+            sessionDetailsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            sessionPanel.Controls.Add(sessionDetailsGrid);
+
+            Dictionary<int, string> sessionMap = new Dictionary<int, string>();
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = "SELECT id, date, \"start\", \"end\" FROM session WHERE status = 1";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(0);
+                            DateTime date = reader.GetDateTime(1);
+                            TimeSpan start = reader.GetTimeSpan(2);
+                            TimeSpan end = reader.GetTimeSpan(3);
+                            string labelText = string.Format("{0} ({1:hh\\:mm} - {2:hh\\:mm})", date.ToShortDateString(), start, end);
+                            sessionMap.Add(id, labelText);
+                            sessionSelector.Items.Add(labelText);
+                        }
+                    }
+                }
+            }
+
+            sessionSelector.SelectedIndexChanged += delegate (object s, EventArgs evt)
+            {
+                string selectedLabel = sessionSelector.SelectedItem.ToString();
+                int selectedSessionId = -1;
+                foreach (KeyValuePair<int, string> entry in sessionMap)
+                {
+                    if (entry.Value == selectedLabel)
+                    {
+                        selectedSessionId = entry.Key;
+                        break;
+                    }
+                }
+                if (selectedSessionId != -1)
+                {
+                    LoadSessionDetails(selectedSessionId, sessionDetailsGrid);
+                }
+            };
+        }
+
+        private void LoadSessionDetails(int sessionId, DataGridView grid)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Session Type");
+            dt.Columns.Add("Total Capacity");
+            dt.Columns.Add("Current Capacity");
+            dt.Columns.Add("Trainer");
+
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = @"SELECT s.type, s.total_capacity, s.current_capacity, t.name FROM session s LEFT JOIN trainer t ON s.trainer_id = t.id WHERE s.id = @sessionId";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@sessionId", sessionId);
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string type = "";
+                            int typeVal = reader.GetInt32(0);
+                            if (typeVal == 1) type = "Grup Seansı";
+                            else if (typeVal == 2) type = "Bireysel Seans";
+                            else if (typeVal == 3) type = "Antrenörlü Seans";
+
+                            int total = reader.GetInt32(1);
+                            int current = reader.GetInt32(2);
+                            string trainer = reader.IsDBNull(3) ? "-" : reader.GetString(3);
+
+                            dt.Rows.Add(type, total.ToString(), current.ToString(), trainer);
+                        }
+                    }
+                }
+            }
+
+            grid.DataSource = dt;
+        }
+
         private void WorkoutBtn_Click(object sender, EventArgs e)
         {
             ClearPanels();
@@ -140,7 +252,6 @@ namespace MacFit
 
             grid.DataSource = dt;
         }
-
 
         private void YagOraniBtn_Click(object sender, EventArgs e)
         {

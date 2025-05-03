@@ -183,6 +183,7 @@
             this.SeansBtn.Size = new System.Drawing.Size(180, 45);
             this.SeansBtn.TabIndex = 2;
             this.SeansBtn.Text = "Seans Seç";
+            this.SeansBtn.Click += new System.EventHandler(this.SeansBtn_Click);
             // 
             // UyelikBtn
             // 
