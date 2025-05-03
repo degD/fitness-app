@@ -16,7 +16,7 @@ namespace MacFit
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new UserForm("12345678901"));
+            Application.Run(new LoginPage());
         }
     }
 }
