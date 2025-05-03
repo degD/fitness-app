@@ -79,8 +79,6 @@ namespace MacFit
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            // update password button
-            // Update password in OldPassBox and NewPassBox, reject if same
             if (string.IsNullOrWhiteSpace(OldPassBox.Text) || string.IsNullOrWhiteSpace(NewPassBox.Text))
             {
                 MessageBox.Show("Please fill in all password fields.");
@@ -92,29 +90,42 @@ namespace MacFit
                 return;
             }
 
-            // Plain text password check, TODO: change later on
-            if (OldPassBox.Text != this.password)
-            {
-                MessageBox.Show("Old password is incorrect.");
-                return;
-            }
-
             try
             {
                 using (NpgsqlConnection conn = new NpgsqlConnection(connString))
                 {
                     conn.Open();
-                    string query = "UPDATE Member SET password = @newPassword WHERE id = @userId AND password = @oldPassword";
+                    string query = "SELECT password FROM Member WHERE id = @userId";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@userId", this.userId);
-                        cmd.Parameters.AddWithValue("@oldPassword", OldPassBox.Text);
-                        cmd.Parameters.AddWithValue("@newPassword", NewPassBox.Text);
+                        string hashedPassword = cmd.ExecuteScalar() as string;
+                        Console.WriteLine("hashedPassword: " + hashedPassword);
+
+                        // Ensure the fetched password is not null or invalid
+                        if (string.IsNullOrWhiteSpace(hashedPassword) || !hashedPassword.StartsWith("$2"))
+                        {
+                            MessageBox.Show("Stored password is invalid.");
+                            return;
+                        }
+
+                        if (!BCrypt.Net.BCrypt.Verify(OldPassBox.Text, hashedPassword))
+                        {
+                            MessageBox.Show("Old password is incorrect.");
+                            return;
+                        }
+                    }
+
+                    string hashedNewPassword = BCrypt.Net.BCrypt.HashPassword(NewPassBox.Text);
+                    string updateQuery = "UPDATE Member SET password = @newPassword WHERE id = @userId";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(updateQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@userId", this.userId);
+                        cmd.Parameters.AddWithValue("@newPassword", hashedNewPassword);
                         cmd.ExecuteNonQuery();
                     }
                 }
                 MessageBox.Show("Password updated successfully.");
-                LoadData();
             }
             catch (Exception ex)
             {

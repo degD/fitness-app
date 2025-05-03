@@ -29,7 +29,7 @@ namespace MacFit
         public UserForm(string userId)
         {
             InitializeComponent();
-            this.userId = "12345678901";
+            this.userId = userId;
         }
 
         private void ClearPanels()

@@ -191,6 +191,14 @@ namespace MacFit
                         if (isMatch)
                         {
                             MessageBox.Show("Login successful.");
+
+                            var mainForm = new UserForm(LoginIdBox.Text);
+
+                            // Hide current form and open main form
+                            this.Hide();
+
+                            mainForm.FormClosed += (s, args) => this.Close(); // closes login form when main closes
+                            mainForm.Show();
                         }
                         else
                         {
