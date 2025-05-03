@@ -8,6 +8,7 @@ namespace MacFit
 {
     internal static class Program
     {
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +17,7 @@ namespace MacFit
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginPage());
+            Application.Run(new LoginPage("Host=localhost;Port=5432;Username=postgres;Password=123456;Database=fitnessdb"));
         }
     }
 }

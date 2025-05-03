@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +13,11 @@ namespace MacFit
 {
     public partial class LoginPage : Form
     {
-        public LoginPage()
+        private string connString;
+
+        public LoginPage(string connString)
         {
+            this.connString = connString;
             InitializeComponent();
         }
 
@@ -22,14 +26,35 @@ namespace MacFit
 
         }
 
+        private bool userExists(string text)
+        {
+            // Ensure the connection string is properly passed
+            string connectionString = this.connString;
+
+            // Use a standard using block instead of using declarations for compatibility with C# 7.3
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Use the provided text parameter instead of hardcoding the username
+                using (var cmd = new NpgsqlCommand("SELECT user_exists(@username)", conn))
+                {
+                    cmd.Parameters.AddWithValue("username", text);
+
+                    // Ensure a return value is provided
+                    bool exists = (bool)cmd.ExecuteScalar();
+                    Console.WriteLine(exists ? "User exists." : "User does not exist.");
+                    return exists;
+                }
+            }
+        }
+
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            // get name, password, email, phone, id, birthdate, weight, height, gender
-            // and validate them
-            // if they are valid, insert them into the database
-
-            // validate them
-            if (string.IsNullOrEmpty(nameBox.Text) || string.IsNullOrEmpty(mailBox.Text) || string.IsNullOrEmpty(phoneBox.Text) || string.IsNullOrEmpty(idBox.Text) || string.IsNullOrEmpty(birthdatePicker.Text) || string.IsNullOrEmpty(weightBox.Text) || string.IsNullOrEmpty(heightBox.Text))
+            // Validate input fields  
+            if (string.IsNullOrEmpty(nameBox.Text) || string.IsNullOrEmpty(mailBox.Text) || string.IsNullOrEmpty(phoneBox.Text) || 
+                string.IsNullOrEmpty(idBox.Text) || string.IsNullOrEmpty(birthdatePicker.Text) || 
+                string.IsNullOrEmpty(weightBox.Text) || string.IsNullOrEmpty(heightBox.Text))
             {
                 MessageBox.Show("Please fill all the fields");
                 return;
@@ -75,14 +100,14 @@ namespace MacFit
                 return;
             }
 
-            // check if the user already exists
-            if (Program.userExists(idBox.Text))
+            // Check if the user already exists  
+            if (this.userExists(idBox.Text))
             {
                 MessageBox.Show("User already exists");
                 return;
             }
 
-            // check birthdate
+            // Check birthdate  
             DateTime birthdate = birthdatePicker.Value;
             if (birthdate != null)
             {
@@ -96,9 +121,37 @@ namespace MacFit
                 }
             }
 
-            // insert the user into the database
+            // Hash the password  
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(passwordBox.Text);
 
-
+            // Insert the user into the database  
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+                    string query = "INSERT INTO Member (id, name, mail, phone, birth_date, weight, height, password, points) VALUES (@id, @name, @mail, @phone, @birthdate, @weight, @height, @password, @points)";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", idBox.Text);
+                        cmd.Parameters.AddWithValue("@name", nameBox.Text);
+                        cmd.Parameters.AddWithValue("@mail", mailBox.Text);
+                        cmd.Parameters.AddWithValue("@phone", phoneBox.Text);
+                        cmd.Parameters.AddWithValue("@birthdate", birthdate);
+                        cmd.Parameters.AddWithValue("@weight", weightBox.Value);
+                        cmd.Parameters.AddWithValue("@height", heightBox.Value);
+                        //cmd.Parameters.AddWithValue("@gender", genderBox.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@password", hashedPassword);
+                        cmd.Parameters.AddWithValue("@points", 0); // Default points value
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                MessageBox.Show("User registered successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
         private void label3_Click(object sender, EventArgs e)

@@ -103,6 +103,7 @@
             this.WBox.Name = "WBox";
             this.WBox.Size = new System.Drawing.Size(100, 36);
             this.WBox.TabIndex = 4;
+            this.WBox.ValueChanged += new System.EventHandler(this.WBox_ValueChanged);
             // 
             // HBox
             // 

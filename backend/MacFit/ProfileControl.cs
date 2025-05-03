@@ -132,6 +132,11 @@ namespace MacFit
 
         }
 
+        private void WBox_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
 
