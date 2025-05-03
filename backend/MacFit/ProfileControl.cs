@@ -100,7 +100,6 @@ namespace MacFit
                     {
                         cmd.Parameters.AddWithValue("@userId", this.userId);
                         string hashedPassword = cmd.ExecuteScalar() as string;
-                        Console.WriteLine("hashedPassword: " + hashedPassword);
 
                         // Ensure the fetched password is not null or invalid
                         if (string.IsNullOrWhiteSpace(hashedPassword) || !hashedPassword.StartsWith("$2"))
