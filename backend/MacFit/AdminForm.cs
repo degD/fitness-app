@@ -749,6 +749,528 @@ namespace MacFit
             grid.RowTemplate.Height = 28;
         }
 
+        private void YagOraniBtn_Click(object sender, EventArgs e)
+        {
+            ShowWorkoutPlanOptionsPanel();
+        }
+
+        private void ShowWorkoutPlanOptionsPanel()
+        {
+            ClearPanels();
+
+            var panel = new Guna2Panel
+            {
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 10,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
+            };
+            this.Controls.Add(panel);
+
+            Label lblTitle = new Label
+            {
+                Text = "Workout Plan İşlemleri",
+                Font = new Font("Segoe UI", 18, FontStyle.Bold),
+                Location = new Point(20, 30),
+                AutoSize = true
+            };
+            panel.Controls.Add(lblTitle);
+
+            var btnCreate = new Guna2Button
+            {
+                Text = "Yeni Plan Oluştur",
+                Size = new Size(250, 50),
+                Location = new Point(60, 100),
+                BorderRadius = 10,
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                FillColor = Color.SeaGreen, 
+                ForeColor = Color.White
+            };
+            panel.Controls.Add(btnCreate);
+
+            var btnManage = new Guna2Button
+            {
+                Text = "Planları Görüntüle / Güncelle / Sil",
+                Size = new Size(300, 50),
+                Location = new Point(330, 100), 
+                BorderRadius = 10,
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                FillColor = Color.Firebrick, 
+                ForeColor = Color.White
+            };
+            panel.Controls.Add(btnManage);
+
+            btnCreate.Click += (s, e) => ShowWorkoutPlanPanel();
+            btnManage.Click += (s, e) => ShowWorkoutPlanManagerPanel();
+        }
+
+        private void ShowWorkoutPlanPanel()
+        {
+            ClearPanels();
+
+            var panel = new Guna2Panel
+            {
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 15,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
+            };
+            this.Controls.Add(panel);
+
+            Label lblTitle = new Label
+            {
+                Text = "Workout Plan Oluştur",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
+            panel.Controls.Add(lblTitle);
+
+            // Plan İsmi
+            var txtPlanName = new Guna2TextBox
+            {
+                PlaceholderText = "Plan İsmi",
+                Location = new Point(20, 60),
+                Size = new Size(300, 35),
+                BorderRadius = 8
+            };
+            panel.Controls.Add(txtPlanName);
+
+            // Kategori Seçimi
+            var cmbCategory = new Guna2ComboBox
+            {
+                Location = new Point(20, 110),
+                Size = new Size(200, 35),
+                BorderRadius = 8,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            cmbCategory.Items.AddRange(new string[] { "Leg", "Chest", "Back", "Shoulder", "Arms", "Abs" });
+            panel.Controls.Add(cmbCategory);
+
+            // Egzersiz Listesi
+            var lstExercises = new ListBox
+            {
+                Location = new Point(20, 160),
+                Size = new Size(200, 200)
+            };
+            panel.Controls.Add(lstExercises);
+
+            // Seçilen egzersizler + bilgiler
+            var dgvSelected = new Guna2DataGridView
+            {
+                Location = new Point(240, 110),
+                Size = new Size(580, 250),
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                ColumnCount = 5
+            };
+            dgvSelected.Columns[0].Name = "Egzersiz";
+            dgvSelected.Columns[1].Name = "Set";
+            dgvSelected.Columns[2].Name = "Tekrar";
+            dgvSelected.Columns[3].Name = "Ağırlık";
+            dgvSelected.Columns[4].Name = "Kalori";
+            panel.Controls.Add(dgvSelected);
+
+            // Tek tek bilgi girişi
+            var txtSet = new Guna2TextBox { PlaceholderText = "Set", Location = new Point(20, 370), Size = new Size(60, 30) };
+            var txtReps = new Guna2TextBox { PlaceholderText = "Tekrar", Location = new Point(90, 370), Size = new Size(60, 30) };
+            var txtWeight = new Guna2TextBox { PlaceholderText = "Kg", Location = new Point(160, 370), Size = new Size(60, 30) };
+            var txtCal = new Guna2TextBox { PlaceholderText = "Kalori", Location = new Point(230, 370), Size = new Size(60, 30) };
+            var btnAdd = new Guna2Button { Text = "Ekle", Location = new Point(300, 370), Size = new Size(80, 30) };
+
+            panel.Controls.Add(txtSet);
+            panel.Controls.Add(txtReps);
+            panel.Controls.Add(txtWeight);
+            panel.Controls.Add(txtCal);
+            panel.Controls.Add(btnAdd);
+
+            // Kaydet
+            var btnSave = new Guna2Button
+            {
+                Text = "Planı Kaydet",
+                Location = new Point(650, 370),
+                Size = new Size(170, 40),
+                BorderRadius = 10
+            };
+            panel.Controls.Add(btnSave);
+
+            // Kategori seçildiğinde egzersizleri yükle
+            cmbCategory.SelectedIndexChanged += (s, e) =>
+            {
+                lstExercises.Items.Clear();
+                string selected = cmbCategory.SelectedItem.ToString();
+
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+                    string query = "SELECT name FROM exercise";
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string name = reader.GetString(0);
+                                if (GetCategory(name) == selected)
+                                {
+                                    lstExercises.Items.Add(name);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Ekle butonu: Egzersizi tabloya ekle
+            btnAdd.Click += (s, e) =>
+            {
+                if (lstExercises.SelectedItem == null) return;
+                dgvSelected.Rows.Add(lstExercises.SelectedItem.ToString(), txtSet.Text, txtReps.Text, txtWeight.Text, txtCal.Text);
+            };
+
+            // Planı kaydet
+            btnSave.Click += (s, e) =>
+            {
+                if (txtPlanName.Text.Trim() == "" || dgvSelected.Rows.Count == 0)
+                {
+                    MessageBox.Show("Plan ismi ve egzersizler girilmelidir.");
+                    return;
+                }
+
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    string insertPlan = "INSERT INTO workout_plan (id, title, member_id) VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM workout_plan), @title, NULL) RETURNING id";
+                    int planId = 0;
+                    using (var cmd = new NpgsqlCommand(insertPlan, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@title", txtPlanName.Text);
+                        planId = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+
+                    foreach (DataGridViewRow row in dgvSelected.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+                        string exerciseName = row.Cells[0].Value.ToString();
+
+                        int exerciseId = -1;
+                        using (var cmd = new NpgsqlCommand("SELECT id FROM exercise WHERE name = @name", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@name", exerciseName);
+                            exerciseId = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
+
+                        string insertDetail = @"INSERT INTO workout_plan_exercise (workout_plan_id, exercise_id, sets, reps, weight, calories_burnt)
+                                        VALUES (@planId, @exId, @sets, @reps, @weight, @cal)";
+                        using (var cmd = new NpgsqlCommand(insertDetail, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@planId", planId);
+                            cmd.Parameters.AddWithValue("@exId", exerciseId);
+                            // Set sayısı
+                            if (int.TryParse(row.Cells[1].Value?.ToString(), out int sets))
+                                cmd.Parameters.AddWithValue("@sets", sets);
+                            else
+                                cmd.Parameters.AddWithValue("@sets", DBNull.Value);
+
+                            // Tekrar sayısı
+                            if (int.TryParse(row.Cells[2].Value?.ToString(), out int reps))
+                                cmd.Parameters.AddWithValue("@reps", reps);
+                            else
+                                cmd.Parameters.AddWithValue("@reps", DBNull.Value);
+
+                            // Ağırlık
+                            if (int.TryParse(row.Cells[3].Value?.ToString(), out int weight))
+                                cmd.Parameters.AddWithValue("@weight", weight);
+                            else
+                                cmd.Parameters.AddWithValue("@weight", DBNull.Value);
+
+                            // Kalori
+                            if (int.TryParse(row.Cells[4].Value?.ToString(), out int cal))
+                                cmd.Parameters.AddWithValue("@cal", cal);
+                            else
+                                cmd.Parameters.AddWithValue("@cal", DBNull.Value);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Plan başarıyla oluşturuldu.");
+                    txtPlanName.Clear();
+                    dgvSelected.Rows.Clear();
+                }
+            };
+        }
+
+        // Egzersize göre kategori döner
+        private string GetCategory(string exercise)
+        {
+            var categoryMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+        // Leg exercises
+        { "Squat", "Leg" },
+        { "Deadlift", "Leg" },
+        { "Lunges", "Leg" },
+        { "Leg Press", "Leg" },
+        { "Leg Curl", "Leg" },
+        { "Hip Thrust", "Leg" },
+        { "Calf Raise", "Leg" },
+
+        // Chest exercises
+        { "Push-up", "Chest" },
+        { "Bench Press", "Chest" },
+        { "Tricep Dips", "Chest" },
+        { "Dumbell Press", "Chest" },
+        { "Dumbell Incline Press", "Chest" },
+
+        // Back exercises
+        { "Pull-up", "Back" },
+        { "Dumbbell Row", "Back" },
+        { "Barbell Row", "Back" },
+        { "Machine Row", "Back" },
+        { "T-Row", "Back" },
+
+        // Shoulder exercises
+        { "Shoulder Press", "Shoulder" },
+        { "Lateral Raise", "Shoulder" },
+        { "Machine Press", "Shoulder" },
+
+
+        // Arm exercises
+        { "Bicep Curl", "Arms" },
+        { "Dumbell Curl", "Arms" },
+        { "Triceps Pushdown", "Arms" },
+        { "Rope Pushdown", "Arms" },
+
+        // Abs exercises
+        { "Plank", "Abs" },
+        { "Russian Twist", "Abs" },
+        { "Mountain Climbers", "Abs" },
+        { "Kettlebell Swing", "Abs" },
+        { "Ab Roll-out", "Abs" }
+    };
+
+            return categoryMap.TryGetValue(exercise, out var category) ? category : "Other";
+        }
+
+        private void ShowWorkoutPlanManagerPanel()
+        {
+            ClearPanels();
+
+            var panel = new Guna2Panel
+            {
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 10,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
+            };
+            this.Controls.Add(panel);
+
+            Label title = new Label
+            {
+                Text = "Mevcut Workout Planları",
+                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
+            panel.Controls.Add(title);
+
+            // Plan listesi
+            var dgvPlans = new Guna2DataGridView
+            {
+                Location = new Point(20, 50),
+                Size = new Size(400, 200),
+                ReadOnly = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            };
+            panel.Controls.Add(dgvPlans);
+
+            // Egzersiz detayları
+            var dgvDetails = new Guna2DataGridView
+            {
+                Location = new Point(20, 270),
+                Size = new Size(800, 230),
+                ReadOnly = false,
+                AllowUserToAddRows = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            };
+            panel.Controls.Add(dgvDetails);
+
+            dgvDetails.Columns.Add("Egzersiz", "Egzersiz");
+            dgvDetails.Columns.Add("Set", "Set");
+            dgvDetails.Columns.Add("Tekrar", "Tekrar");
+            dgvDetails.Columns.Add("Ağırlık", "Ağırlık");
+            dgvDetails.Columns.Add("Kalori", "Kalori");
+
+            int selectedPlanId = -1;
+
+            // Planları yükle
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = "SELECT id AS \"Plan ID\", title AS \"Plan Adı\" FROM workout_plan ORDER BY id";
+                var da = new NpgsqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgvPlans.DataSource = dt;
+            }
+
+            dgvPlans.CellClick += (s, e) =>
+            {
+                if (e.RowIndex >= 0)
+                {
+                    selectedPlanId = Convert.ToInt32(dgvPlans.Rows[e.RowIndex].Cells["Plan ID"].Value);
+                    dgvDetails.Rows.Clear();
+
+                    using (var conn = new NpgsqlConnection(connString))
+                    {
+                        conn.Open();
+                        string query = @"SELECT e.name, wpe.sets, wpe.reps, wpe.weight, wpe.calories_burnt 
+                                 FROM workout_plan_exercise wpe 
+                                 JOIN exercise e ON wpe.exercise_id = e.id 
+                                 WHERE wpe.workout_plan_id = @id";
+                        using (var cmd = new NpgsqlCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", selectedPlanId);
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    string name = reader.GetString(0);
+                                    object sets = DBNull.Value.Equals(reader[1]) ? "" : reader.GetInt32(1).ToString();
+                                    object reps = DBNull.Value.Equals(reader[2]) ? "" : reader.GetInt32(2).ToString();
+                                    object weight = DBNull.Value.Equals(reader[3]) ? "" : reader.GetInt32(3).ToString();
+                                    object cal = DBNull.Value.Equals(reader[4]) ? "" : reader.GetInt32(4).ToString();
+
+                                    dgvDetails.Rows.Add(name, sets, reps, weight, cal);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Güncelle Butonu
+            var btnUpdate = new Guna2Button
+            {
+                Text = "Güncelle",
+                Location = new Point(450, 50),
+                Size = new Size(120, 40),
+                BorderRadius = 10
+            };
+            panel.Controls.Add(btnUpdate);
+
+            btnUpdate.Click += (s, e) =>
+            {
+                if (selectedPlanId == -1)
+                {
+                    MessageBox.Show("Lütfen bir plan seçin.");
+                    return;
+                }
+
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    // Eski egzersizleri sil
+                    string del = "DELETE FROM workout_plan_exercise WHERE workout_plan_id = @id";
+                    using (var cmd = new NpgsqlCommand(del, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", selectedPlanId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Yeni egzersizleri tekrar ekle
+                    foreach (DataGridViewRow row in dgvDetails.Rows)
+                    {
+                        string exercise = row.Cells[0].Value.ToString();
+                        int exerciseId = -1;
+
+                        using (var cmd = new NpgsqlCommand("SELECT id FROM exercise WHERE name = @name", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@name", exercise);
+                            exerciseId = Convert.ToInt32(cmd.ExecuteScalar());
+                        }
+
+                        string insert = @"INSERT INTO workout_plan_exercise 
+                                  (workout_plan_id, exercise_id, sets, reps, weight, calories_burnt) 
+                                  VALUES (@planId, @exId, @sets, @reps, @weight, @cal)";
+                        using (var cmd = new NpgsqlCommand(insert, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@planId", selectedPlanId);
+                            cmd.Parameters.AddWithValue("@exId", exerciseId);
+                            cmd.Parameters.AddWithValue("@sets", Convert.ToInt32(row.Cells[1].Value));
+                            cmd.Parameters.AddWithValue("@reps", Convert.ToInt32(row.Cells[2].Value));
+                            cmd.Parameters.AddWithValue("@weight", Convert.ToInt32(row.Cells[3].Value));
+                            cmd.Parameters.AddWithValue("@cal", Convert.ToInt32(row.Cells[4].Value));
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Plan güncellendi.");
+                }
+            };
+
+            // Sil Butonu
+            var btnDelete = new Guna2Button
+            {
+                Text = "Sil",
+                FillColor = Color.Firebrick,
+                Location = new Point(580, 50),
+                Size = new Size(120, 40),
+                BorderRadius = 10
+            };
+            panel.Controls.Add(btnDelete);
+
+            btnDelete.Click += (s, e) =>
+            {
+                if (selectedPlanId == -1)
+                {
+                    MessageBox.Show("Lütfen bir plan seçin.");
+                    return;
+                }
+
+                var result = MessageBox.Show("Bu planı silmek istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    using (var conn = new NpgsqlConnection(connString))
+                    {
+                        conn.Open();
+
+                        string del1 = "DELETE FROM workout_plan_exercise WHERE workout_plan_id = @id";
+                        using (var cmd = new NpgsqlCommand(del1, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", selectedPlanId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        string del2 = "DELETE FROM workout_plan WHERE id = @id";
+                        using (var cmd = new NpgsqlCommand(del2, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", selectedPlanId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show("Plan silindi.");
+                        dgvDetails.Rows.Clear();
+
+                        // Listeyi güncelle
+                        string query = "SELECT id AS \"Plan ID\", title AS \"Plan Adı\" FROM workout_plan ORDER BY id";
+                        var da = new NpgsqlDataAdapter(query, conn);
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        dgvPlans.DataSource = dt;
+                    }
+                }
+            };
+        }
+
 
 
     }

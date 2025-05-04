@@ -106,6 +106,18 @@ WHERE name IN ('Ali Yılmaz', 'Mehmet Kara', 'Burak Taş', 'Hakan Yıldız', 'Ö
 UPDATE member SET gender = 'Kadın' 
 WHERE name IN ('Ayşe Demir', 'Zeynep Çelik', 'Elif Şahin', 'Fatma Öz', 'Emine Güneş');
 
+INSERT INTO "exercise" ("id", "name") VALUES
+(21, 'Dumbell Press'),
+(22, 'Dumbell Incline Press'),
+(23, 'Machine Row'),
+(24, 'T-Row'),
+(25, 'Lateral Raise'),
+(26, 'Machine Press'),
+(27, 'Dumbell Curl'),
+(28, 'Triceps Pushdown'),
+(29, 'Rope Pushdown');
+
+
 
 
 

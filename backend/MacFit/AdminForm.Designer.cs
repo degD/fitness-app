@@ -94,7 +94,8 @@
             this.YagOraniBtn.Name = "YagOraniBtn";
             this.YagOraniBtn.Size = new System.Drawing.Size(240, 55);
             this.YagOraniBtn.TabIndex = 2;
-            this.YagOraniBtn.Text = "Egzersiz Ekle";
+            this.YagOraniBtn.Text = "Workout Plan Oluştur";
+            this.YagOraniBtn.Click += new System.EventHandler(this.YagOraniBtn_Click);
             // 
             // GOdemelerBtn
             // 
