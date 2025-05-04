@@ -83,6 +83,7 @@
             this.guna2Button1.Size = new System.Drawing.Size(240, 55);
             this.guna2Button1.TabIndex = 4;
             this.guna2Button1.Text = "Profil Bilgileri";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // GOdemelerBtn
             // 

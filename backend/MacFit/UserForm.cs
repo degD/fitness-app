@@ -69,46 +69,69 @@ namespace MacFit
             }
         }
 
-        private void SeansBtn_Click(object sender, EventArgs e)
-        {
-            ShowSessionSelector();
-        }
-        private void ShowSessionSelector()
+        private void ShowMembershipAndSessionPaymentPanel()
         {
             ClearPanels();
 
-            Guna2Panel sessionPanel = new Guna2Panel();
-            sessionPanel.Size = new Size(800, 600);
-            sessionPanel.Location = new Point(300, 10);
-            sessionPanel.BorderColor = Color.Black;
-            sessionPanel.BorderThickness = 1;
-            this.Controls.Add(sessionPanel);
+            var panel = new Guna2Panel
+            {
+                Size = new Size(800, 400),
+                Location = new Point(300, 10),
+                BorderColor = Color.Black,
+                BorderThickness = 1
+            };
+            this.Controls.Add(panel);
 
-            Label label = new Label();
-            label.Text = "Seans Seç:";
-            label.Location = new Point(20, 20);
-            label.AutoSize = true;
-            sessionPanel.Controls.Add(label);
+            Label lblCard = new Label { Text = "Kart Seç:", Location = new Point(20, 20), AutoSize = true };
+            panel.Controls.Add(lblCard);
 
-            Guna2ComboBox sessionSelector = new Guna2ComboBox();
-            sessionSelector.Location = new Point(100, 15);
-            sessionSelector.Size = new Size(300, 40);
-            sessionPanel.Controls.Add(sessionSelector);
+            Guna2ComboBox cmbCard = new Guna2ComboBox { Location = new Point(100, 15), Size = new Size(300, 36) };
+            panel.Controls.Add(cmbCard);
 
-            DataGridView sessionDetailsGrid = new DataGridView();
-            sessionDetailsGrid.Location = new Point(20, 70);
-            sessionDetailsGrid.Size = new Size(750, 400);
-            sessionDetailsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            sessionPanel.Controls.Add(sessionDetailsGrid);
+            Label lblSession = new Label { Text = "Seans Seç:", Location = new Point(20, 80), AutoSize = true };
+            panel.Controls.Add(lblSession);
 
-            Dictionary<int, string> sessionMap = new Dictionary<int, string>();
-            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            Guna2ComboBox cmbSession = new Guna2ComboBox { Location = new Point(100, 75), Size = new Size(500, 36) };
+            panel.Controls.Add(cmbSession);
+
+            Guna2Button btnPayAndRegister = new Guna2Button
+            {
+                Text = "Ödeme Yap ve Seansı Ayır",
+                Location = new Point(100, 130),
+                Size = new Size(300, 45),
+                BorderRadius = 10
+            };
+            panel.Controls.Add(btnPayAndRegister);
+
+            Dictionary<string, string> cardMap = new Dictionary<string, string>();
+            Dictionary<string, int> sessionMap = new Dictionary<string, int>();
+
+            using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
-                string query = "SELECT id, date, \"start\", \"end\" FROM session WHERE status = 1";
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+
+                // Kartları getir
+                using (var cmd = new NpgsqlCommand("SELECT title, number FROM card WHERE member_id = @id", conn))
                 {
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    cmd.Parameters.AddWithValue("@id", userId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string number = reader.GetString(1);
+                            string last4 = number.Substring(number.Length - 4);
+                            string display = reader.GetString(0) + " (" + last4 + ")";
+                            cardMap[display] = number;
+                            cmbCard.Items.Add(display);
+                        }
+                    }
+                }
+
+                // Seansları getir
+                string sessionQuery = "SELECT id, date, \"start\", \"end\", type FROM session WHERE status = 1 AND current_capacity < total_capacity";
+                using (var cmd = new NpgsqlCommand(sessionQuery, conn))
+                {
+                    using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -116,69 +139,94 @@ namespace MacFit
                             DateTime date = reader.GetDateTime(1);
                             TimeSpan start = reader.GetTimeSpan(2);
                             TimeSpan end = reader.GetTimeSpan(3);
-                            string labelText = string.Format("{0} ({1:hh\\:mm} - {2:hh\\:mm})", date.ToShortDateString(), start, end);
-                            sessionMap.Add(id, labelText);
-                            sessionSelector.Items.Add(labelText);
+                            int type = reader.GetInt32(4);
+                            string typeLabel = "Bilinmeyen";
+                            if (type == 1) typeLabel = "Grup Seansı";
+                            else if (type == 2) typeLabel = "Bireysel Seans";
+                            else if (type == 3) typeLabel = "Antrenörlü Seans";
+
+                            string label = string.Format("{0:yyyy-MM-dd} | {1:hh\\:mm} - {2:hh\\:mm} | {3}", date, start, end, typeLabel);
+                            sessionMap[label] = id;
+                            cmbSession.Items.Add(label);
                         }
                     }
                 }
             }
 
-            sessionSelector.SelectedIndexChanged += delegate (object s, EventArgs evt)
+            btnPayAndRegister.Click += (s, e) =>
             {
-                string selectedLabel = sessionSelector.SelectedItem.ToString();
-                int selectedSessionId = -1;
-                foreach (KeyValuePair<int, string> entry in sessionMap)
+                if (cmbCard.SelectedIndex == -1 || cmbSession.SelectedIndex == -1)
                 {
-                    if (entry.Value == selectedLabel)
-                    {
-                        selectedSessionId = entry.Key;
-                        break;
-                    }
+                    MessageBox.Show("Lütfen kart ve seans seçiniz.");
+                    return;
                 }
-                if (selectedSessionId != -1)
+
+                string selectedCardDisplay = cmbCard.SelectedItem.ToString();
+                string selectedCardNumber = cardMap[selectedCardDisplay];
+
+                string selectedSessionDisplay = cmbSession.SelectedItem.ToString();
+                int selectedSessionId = sessionMap[selectedSessionDisplay];
+
+                double amount = 150.0;
+                int invoiceId = new Random().Next(2000, 9999); // örnek için
+
+                using (var conn = new NpgsqlConnection(connString))
                 {
-                    LoadSessionDetails(selectedSessionId, sessionDetailsGrid);
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // Transaction ekle
+                            string insertTransaction = @"
+                    INSERT INTO transaction (member_id, card_number, invoice_id, total_amount, points_used, date)
+                    VALUES (@mid, @cnum, @inv, @total, @points, CURRENT_DATE)";
+                            using (var cmd = new NpgsqlCommand(insertTransaction, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@mid", userId);
+                                cmd.Parameters.AddWithValue("@cnum", selectedCardNumber);
+                                cmd.Parameters.AddWithValue("@inv", invoiceId);
+                                cmd.Parameters.AddWithValue("@total", amount);
+                                cmd.Parameters.AddWithValue("@points", 0);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // Appointment oluştur
+                            string insertAppointment = @"
+                    INSERT INTO appointment (id, session_id, member_id, status, date, workout_plan_id)
+                    VALUES (@id, @sid, @mid, 1, CURRENT_DATE, NULL)";
+                            using (var cmd = new NpgsqlCommand(insertAppointment, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@id", invoiceId);
+                                cmd.Parameters.AddWithValue("@sid", selectedSessionId);
+                                cmd.Parameters.AddWithValue("@mid", userId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // current_capacity artır
+                            using (var cmd = new NpgsqlCommand("UPDATE session SET current_capacity = current_capacity + 1 WHERE id = @id", conn))
+                            {
+                                cmd.Parameters.AddWithValue("@id", selectedSessionId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            tran.Commit();
+                            MessageBox.Show("Ödeme ve seans kaydı başarılı!");
+                            ClearPanels();
+                        }
+                        catch (Exception ex)
+                        {
+                            tran.Rollback();
+                            MessageBox.Show("Hata oluştu: " + ex.Message);
+                        }
+                    }
                 }
             };
         }
 
-        private void LoadSessionDetails(int sessionId, DataGridView grid)
+        private void SeansBtn_Click(object sender, EventArgs e)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Session Type");
-            dt.Columns.Add("Total Capacity");
-            dt.Columns.Add("Current Capacity");
-            dt.Columns.Add("Trainer");
-
-            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
-            {
-                conn.Open();
-                string query = @"SELECT s.type, s.total_capacity, s.current_capacity, t.name FROM session s LEFT JOIN trainer t ON s.trainer_id = t.id WHERE s.id = @sessionId";
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@sessionId", sessionId);
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            string type = "";
-                            int typeVal = reader.GetInt32(0);
-                            if (typeVal == 1) type = "Grup Seansı";
-                            else if (typeVal == 2) type = "Bireysel Seans";
-                            else if (typeVal == 3) type = "Antrenörlü Seans";
-
-                            int total = reader.GetInt32(1);
-                            int current = reader.GetInt32(2);
-                            string trainer = reader.IsDBNull(3) ? "-" : reader.GetString(3);
-
-                            dt.Rows.Add(type, total.ToString(), current.ToString(), trainer);
-                        }
-                    }
-                }
-            }
-
-            grid.DataSource = dt;
+            ShowMembershipAndSessionPaymentPanel();
         }
 
         private string GetCategory(string exercise)
@@ -306,7 +354,6 @@ namespace MacFit
                     }
                 }
             };
-        }
 
         private void ShowWorkoutPlanCreatorPanel()
         {
@@ -1032,7 +1079,7 @@ namespace MacFit
                 using (NpgsqlConnection conn = new NpgsqlConnection(connString))
                 {
                     conn.Open();
-                       
+
                     odemeler.Clear();
                     string query = "SELECT card_number, invoice_id, total_amount, points_used, date, member_id FROM Transaction WHERE member_id = @userId";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -1114,6 +1161,22 @@ namespace MacFit
             infoBar.Controls.Add(lbDate);
             userInfoPanel.Controls.Add(infoBar);
 
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            ClearPanels();
+
+            // Info bar
+            Guna2Panel panel = new Guna2Panel
+            {
+                Location = new Point(200, 0),
+                Size = new Size(800, 600),
+                BorderColor = Color.Black,
+                AutoSize = true,
+            };
+            panel.Controls.Add(new ProfileControl(userId, connString));
+            this.Controls.Add(panel);
         }
 
         private void UyelikBtn_Click(object sender, EventArgs e)
