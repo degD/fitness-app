@@ -664,25 +664,7 @@ namespace MacFit
             userInfoPanel.Controls.Add(lblIdealWeight);
             userInfoPanel.Controls.Add(lblMetabolicAge);
 
-            // Progress bar for ideal weight
-            Guna2ProgressBar progressBar = new Guna2ProgressBar
-            {
-                Size = new Size(500, 30),
-                Location = new Point(20, 200),
-                Value = (int)((kilo / idealKilo) * 100)
-            };
-            userInfoPanel.Controls.Add(progressBar);
-
-            // Button to update data
-            Guna2Button updateDataButton = new Guna2Button
-            {
-                Text = "Update Data",
-                Location = new Point(20, 240),
-                Size = new Size(100, 30)
-            };
-            updateDataButton.Click += UpdateDataButton_Click;
-            userInfoPanel.Controls.Add(updateDataButton);
-
+           
             // Charts and graphs
             GunaChart weightTrendChart = new GunaChart
             {
