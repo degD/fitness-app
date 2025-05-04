@@ -50,33 +50,60 @@ namespace MacFit
 
             var panel = new Guna2Panel
             {
-                Size = new Size(800, 400),
+                Size = new Size(850, 600),
                 Location = new Point(300, 10),
-                BorderColor = Color.Black,
-                BorderThickness = 1
+                BorderRadius = 10,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
             };
             this.Controls.Add(panel);
 
-            Label lblCard = new Label { Text = "Kart Seç:", Location = new Point(20, 20), AutoSize = true };
+            Label lblTitle = new Label
+            {
+                Text = "Seans Kaydı ve Ödeme",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
+            panel.Controls.Add(lblTitle);
+
+            Label lblCard = new Label { Text = "Kart Seç:", Location = new Point(20, 60), AutoSize = true };
             panel.Controls.Add(lblCard);
 
-            Guna2ComboBox cmbCard = new Guna2ComboBox { Location = new Point(100, 15), Size = new Size(300, 36) };
+            Guna2ComboBox cmbCard = new Guna2ComboBox { Location = new Point(100, 55), Size = new Size(300, 36) };
             panel.Controls.Add(cmbCard);
 
-            Label lblSession = new Label { Text = "Seans Seç:", Location = new Point(20, 80), AutoSize = true };
+            Label lblSession = new Label { Text = "Seans Seç:", Location = new Point(20, 110), AutoSize = true };
             panel.Controls.Add(lblSession);
 
-            Guna2ComboBox cmbSession = new Guna2ComboBox { Location = new Point(100, 75), Size = new Size(500, 36) };
+            Guna2ComboBox cmbSession = new Guna2ComboBox { Location = new Point(100, 105), Size = new Size(500, 36) };
             panel.Controls.Add(cmbSession);
 
             Guna2Button btnPayAndRegister = new Guna2Button
             {
                 Text = "Ödeme Yap ve Seansı Ayır",
-                Location = new Point(100, 130),
+                Location = new Point(100, 160),
                 Size = new Size(300, 45),
                 BorderRadius = 10
             };
             panel.Controls.Add(btnPayAndRegister);
+
+            Guna2DataGridView dgvPreviousSessions = new Guna2DataGridView
+            {
+                Location = new Point(20, 220),
+                Size = new Size(800, 330),
+                ReadOnly = true,
+                AllowUserToAddRows = false,
+                ColumnHeadersHeight = 30,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            };
+            panel.Controls.Add(dgvPreviousSessions);
+
+            dgvPreviousSessions.Columns.Add("Tarih", "Tarih");
+            dgvPreviousSessions.Columns.Add("Saat", "Saat");
+            dgvPreviousSessions.Columns.Add("Tür", "Tür");
+            dgvPreviousSessions.Columns.Add("Durum", "Durum");
 
             Dictionary<string, string> cardMap = new Dictionary<string, string>();
             Dictionary<string, int> sessionMap = new Dictionary<string, int>();
@@ -105,24 +132,40 @@ namespace MacFit
                 // Seansları getir
                 string sessionQuery = "SELECT id, date, \"start\", \"end\", type FROM session WHERE status = 1 AND current_capacity < total_capacity";
                 using (var cmd = new NpgsqlCommand(sessionQuery, conn))
+                using (var reader = cmd.ExecuteReader())
                 {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        DateTime date = reader.GetDateTime(1);
+                        TimeSpan start = reader.GetTimeSpan(2);
+                        TimeSpan end = reader.GetTimeSpan(3);
+                        int type = reader.GetInt32(4);
+                        string typeLabel = type == 1 ? "Grup Seansı" : type == 2 ? "Bireysel Seans" : "Antrenörlü Seans";
+
+                        string label = string.Format("{0:yyyy-MM-dd} | {1:hh\\:mm} - {2:hh\\:mm} | {3}", date, start, end, typeLabel);
+                        sessionMap[label] = id;
+                        cmbSession.Items.Add(label);
+                    }
+                }
+
+                // Kullanıcının geçmiş seanslarını getir
+                string pastQuery = @"SELECT s.date, s.start, s.end, s.type, a.status
+                             FROM appointment a
+                             JOIN session s ON a.session_id = s.id
+                             WHERE a.member_id = @id";
+                using (var cmd = new NpgsqlCommand(pastQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", userId);
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            int id = reader.GetInt32(0);
-                            DateTime date = reader.GetDateTime(1);
-                            TimeSpan start = reader.GetTimeSpan(2);
-                            TimeSpan end = reader.GetTimeSpan(3);
-                            int type = reader.GetInt32(4);
-                            string typeLabel = "Bilinmeyen";
-                            if (type == 1) typeLabel = "Grup Seansı";
-                            else if (type == 2) typeLabel = "Bireysel Seans";
-                            else if (type == 3) typeLabel = "Antrenörlü Seans";
-
-                            string label = string.Format("{0:yyyy-MM-dd} | {1:hh\\:mm} - {2:hh\\:mm} | {3}", date, start, end, typeLabel);
-                            sessionMap[label] = id;
-                            cmbSession.Items.Add(label);
+                            string date = reader.GetDateTime(0).ToString("yyyy-MM-dd");
+                            string saat = reader.GetTimeSpan(1).ToString(@"hh\:mm") + " - " + reader.GetTimeSpan(2).ToString(@"hh\:mm");
+                            string type = reader.GetInt32(3) == 1 ? "Grup" : reader.GetInt32(3) == 2 ? "Bireysel" : "Antrenörlü";
+                            string status = reader.GetInt32(4) == 1 ? "Aktif" : "Pasif";
+                            dgvPreviousSessions.Rows.Add(date, saat, type, status);
                         }
                     }
                 }
@@ -145,6 +188,23 @@ namespace MacFit
                 double amount = 150.0;
                 int invoiceId = new Random().Next(2000, 9999); // örnek için
 
+                using (var checkConn = new NpgsqlConnection(connString))
+                {
+                    checkConn.Open();
+                    string checkQuery = "SELECT COUNT(*) FROM appointment WHERE member_id = @mid AND session_id = @sid";
+                    using (var checkCmd = new NpgsqlCommand(checkQuery, checkConn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@mid", userId);
+                        checkCmd.Parameters.AddWithValue("@sid", selectedSessionId);
+                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Bu seansı zaten seçtiniz. Lütfen başka bir seans seçin.");
+                            return;
+                        }
+                    }
+                }
+
                 using (var conn = new NpgsqlConnection(connString))
                 {
                     conn.Open();
@@ -154,8 +214,8 @@ namespace MacFit
                         {
                             // Transaction ekle
                             string insertTransaction = @"
-                    INSERT INTO transaction (member_id, card_number, invoice_id, total_amount, points_used, date)
-                    VALUES (@mid, @cnum, @inv, @total, @points, CURRENT_DATE)";
+                        INSERT INTO transaction (member_id, card_number, invoice_id, total_amount, points_used, date)
+                        VALUES (@mid, @cnum, @inv, @total, @points, CURRENT_DATE)";
                             using (var cmd = new NpgsqlCommand(insertTransaction, conn))
                             {
                                 cmd.Parameters.AddWithValue("@mid", userId);
@@ -168,8 +228,8 @@ namespace MacFit
 
                             // Appointment oluştur
                             string insertAppointment = @"
-                    INSERT INTO appointment (id, session_id, member_id, status, date, workout_plan_id)
-                    VALUES (@id, @sid, @mid, 1, CURRENT_DATE, NULL)";
+                        INSERT INTO appointment (id, session_id, member_id, status, date, workout_plan_id)
+                        VALUES (@id, @sid, @mid, 1, CURRENT_DATE, NULL)";
                             using (var cmd = new NpgsqlCommand(insertAppointment, conn))
                             {
                                 cmd.Parameters.AddWithValue("@id", invoiceId);
@@ -187,7 +247,7 @@ namespace MacFit
 
                             tran.Commit();
                             MessageBox.Show("Ödeme ve seans kaydı başarılı!");
-                            ClearPanels();
+                            ShowMembershipAndSessionPaymentPanel(); // ekranı yenile
                         }
                         catch (Exception ex)
                         {
@@ -198,6 +258,8 @@ namespace MacFit
                 }
             };
         }
+
+
 
         private void SeansOdemeBtn_Click(object sender, EventArgs e)
         {
