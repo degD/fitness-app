@@ -354,6 +354,7 @@ namespace MacFit
                     }
                 }
             };
+        }
 
         private void ShowWorkoutPlanCreatorPanel()
         {
