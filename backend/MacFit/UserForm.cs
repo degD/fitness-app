@@ -664,7 +664,6 @@ namespace MacFit
             userInfoPanel.Controls.Add(lblIdealWeight);
             userInfoPanel.Controls.Add(lblMetabolicAge);
 
-           
             // Charts and graphs
             GunaChart weightTrendChart = new GunaChart
             {
@@ -1125,16 +1124,157 @@ namespace MacFit
         {
             ClearPanels();
 
-            // Info bar
-            Guna2Panel panel = new Guna2Panel
+            Guna2Panel profilePanel = new Guna2Panel
             {
                 Location = new Point(200, 0),
-                Size = new Size(800, 600),
+                Size = new Size(1200, 800),
                 BorderColor = Color.Black,
-                AutoSize = true,
+                BorderThickness = 1,
+                BackColor = Color.White
             };
-            panel.Controls.Add(new ProfileControl(userId, connString));
-            this.Controls.Add(panel);
+            this.Controls.Add(profilePanel);
+
+            Label lblProfileTitle = new Label
+            {
+                Text = "Profil Bilgileri",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 20),
+                AutoSize = true
+            };
+            profilePanel.Controls.Add(lblProfileTitle);
+
+            // Bilgi alanları
+            Label lblName = new Label { Text = "Ad Soyad:", Location = new Point(20, 70) };
+            Guna2TextBox txtName = new Guna2TextBox { Location = new Point(150, 65), Size = new Size(200, 30) };
+
+            Label lblMail = new Label { Text = "E-Posta:", Location = new Point(20, 110) };
+            Guna2TextBox txtMail = new Guna2TextBox { Location = new Point(150, 105), Size = new Size(200, 30) };
+
+            Label lblWeight = new Label { Text = "Kilo:", Location = new Point(20, 150) };
+            Guna2TextBox txtWeight = new Guna2TextBox { Location = new Point(150, 145), Size = new Size(200, 30) };
+
+            Label lblHeight = new Label { Text = "Boy:", Location = new Point(20, 190) };
+            Guna2TextBox txtHeight = new Guna2TextBox { Location = new Point(150, 185), Size = new Size(200, 30) };
+
+            Guna2Button btnUpdate = new Guna2Button
+            {
+                Text = "Bilgileri Güncelle",
+                Location = new Point(150, 230),
+                Size = new Size(200, 35),
+                BorderRadius = 10
+            };
+
+            profilePanel.Controls.Add(lblName);
+            profilePanel.Controls.Add(txtName);
+            profilePanel.Controls.Add(lblMail);
+            profilePanel.Controls.Add(txtMail);
+            profilePanel.Controls.Add(lblWeight);
+            profilePanel.Controls.Add(txtWeight);
+            profilePanel.Controls.Add(lblHeight);
+            profilePanel.Controls.Add(txtHeight);
+            profilePanel.Controls.Add(btnUpdate);
+
+            // Mevcut bilgileri doldur
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = "SELECT name, mail, weight, height FROM member WHERE id = @id";
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", userId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            txtName.Text = reader.GetString(0);
+                            txtMail.Text = reader.GetString(1);
+                            txtWeight.Text = reader.GetDouble(2).ToString("F1");
+                            txtHeight.Text = reader.GetDouble(3).ToString("F1");
+                        }
+                    }
+                }
+            }
+
+            btnUpdate.Click += (s, evt) =>
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+                    string updateQuery = "UPDATE member SET name = @name, mail = @mail, weight = @weight, height = @height WHERE id = @id";
+                    using (var cmd = new NpgsqlCommand(updateQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@name", txtName.Text);
+                        cmd.Parameters.AddWithValue("@mail", txtMail.Text);
+                        cmd.Parameters.AddWithValue("@weight", double.Parse(txtWeight.Text));
+                        cmd.Parameters.AddWithValue("@height", double.Parse(txtHeight.Text));
+                        cmd.Parameters.AddWithValue("@id", userId);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Bilgiler başarıyla güncellendi!");
+            };
+
+            // Kredi Kartı Bilgileri
+            Label lblCards = new Label { Text = "Kayıtlı Kartlar:", Location = new Point(400, 70), Font = new Font("Segoe UI", 12, FontStyle.Bold) };
+            ListBox lstCards = new ListBox { Location = new Point(400, 100), Size = new Size(300, 100) };
+            profilePanel.Controls.Add(lblCards);
+            profilePanel.Controls.Add(lstCards);
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string cardQuery = "SELECT title, number FROM card WHERE member_id = @id";
+                using (var cmd = new NpgsqlCommand(cardQuery, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", userId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string title = reader.GetString(0);
+                            string number = reader.GetString(1);
+                            lstCards.Items.Add($"{title} - **** **** **** {number.Substring(number.Length - 4)}");
+                        }
+                    }
+                }
+            }
+
+            // Yeni Kart Ekle
+            Label lblNewCard = new Label { Text = "Yeni Kart Ekle:", Location = new Point(400, 220), Font = new Font("Segoe UI", 12, FontStyle.Bold) };
+            Guna2TextBox txtCardTitle = new Guna2TextBox { PlaceholderText = "Kart Adı", Location = new Point(400, 260), Size = new Size(200, 30) };
+            Guna2TextBox txtCardNumber = new Guna2TextBox { PlaceholderText = "Kart Numarası", Location = new Point(400, 300), Size = new Size(200, 30) };
+            Guna2Button btnAddCard = new Guna2Button
+            {
+                Text = "Kartı Ekle",
+                Location = new Point(400, 340),
+                Size = new Size(200, 35),
+                BorderRadius = 10
+            };
+
+            profilePanel.Controls.Add(lblNewCard);
+            profilePanel.Controls.Add(txtCardTitle);
+            profilePanel.Controls.Add(txtCardNumber);
+            profilePanel.Controls.Add(btnAddCard);
+
+            btnAddCard.Click += (s, evt) =>
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+                    string insertQuery = "INSERT INTO card (member_id, title, number) VALUES (@id, @title, @number)";
+                    using (var cmd = new NpgsqlCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@id", userId);
+                        cmd.Parameters.AddWithValue("@title", txtCardTitle.Text);
+                        cmd.Parameters.AddWithValue("@number", txtCardNumber.Text);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Kart başarıyla eklendi!");
+                guna2Button1_Click(null, null); // sayfayı yenile
+            };
         }
 
         private void UyelikBtn_Click(object sender, EventArgs e)
