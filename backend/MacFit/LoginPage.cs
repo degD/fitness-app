@@ -266,5 +266,10 @@ namespace MacFit
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private void nameBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

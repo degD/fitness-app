@@ -1188,6 +1188,7 @@ namespace MacFit
             try
             {
                 ClearPanels();
+                this.odemePageNr = 0;
 
                 odemelerNextPageBt.Click += OdemelerNextPageBt_Click;
                 odemelerPrevPageBt.Click += OdemelerPrevPageBt_Click;
@@ -1242,6 +1243,24 @@ namespace MacFit
             for (int i = page * 4; i < page * 4 + 4 && i < this.odemeler.Count; i++)
             {
                 AddPastPayments(odemelerUserInfoPanel, i % 4, odemeler[i]);
+            }
+
+            // enable/disable buttons
+            if (this.odemePageNr == 0)
+            {
+
+                odemelerPrevPageBt.Enabled = this.odemePageNr > 0;
+                odemelerNextPageBt.Enabled = this.odemePageNr < this.odemePageNrCount - 1;
+                odemelerPrevPageBt.Enabled = false;
+            }
+            if (this.odemePageNr == this.odemePageNrCount)
+            {
+                odemelerNextPageBt.Enabled = false;
+            }
+            if (this.odemePageNr > 0 && this.odemePageNr < this.odemePageNrCount - 1)
+            {
+                odemelerNextPageBt.Enabled = true;
+                odemelerPrevPageBt.Enabled = true;
             }
         }
 
