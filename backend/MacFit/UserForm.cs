@@ -1258,37 +1258,56 @@ namespace MacFit
             double totalAmount = odeme.totalAmount;
             NpgsqlTypes.NpgsqlDate date = odeme.date;
 
-            // Info bar
-            Guna2Panel infoBar = new Guna2Panel
+            Guna2Panel cardPanel = new Guna2Panel
             {
-                Location = new Point(0, index * 160),
-                Size = new Size(800, 160),
-                BorderColor = Color.Black,
+                Location = new Point(20, 20 + index * 170),
+                Size = new Size(760, 150),
+                BorderRadius = 15,
                 BorderThickness = 1,
-                AutoSize = true,
+                BorderColor = Color.LightGray,
+                FillColor = Color.White,
+                ShadowDecoration = { Enabled = true, Shadow = new Padding(3, 3, 5, 5) }
             };
 
-            Label lbInvoice = new Label { Text = $"Invoice {invoiceId}", Location = new Point(20, 20) };
-            Label lbTotalAmount = new Label { Text = $"Payment: {totalAmount}", Location = new Point(20, 50) };
-            Label lbPoints = new Label { Text = $"Points Used: {pointsUsed}", Location = new Point(20, 80) };
-            Label lbCardNum = new Label { Text = $"Card Number: {cardNum}", Location = new Point(20, 110), AutoSize = true };
-            Label lbDate = new Label { Text = $"Date: {date.ToString()}", Location = new Point(20, 140) };
+            Label lblInvoice = new Label
+            {
+                Text = $"💳 Fatura No: {invoiceId}",
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
 
-            //// Labels for user fitness information
-            //Label lblHeight = new Label { Text = $"Height: {boy} m", Location = new Point(20, 20), AutoSize = true };
-            //Label lblWeight = new Label { Text = $"Weight: {kilo} kg", Location = new Point(20, 50), AutoSize = true };
-            //Label lblBodyFat = new Label { Text = $"Body Fat: {yagOrani:F2} %", Location = new Point(20, 80), AutoSize = true };
-            //Label lblBMI = new Label { Text = $"BMI: {(kilo / (boy / 100 * boy / 100)):F2}", Location = new Point(20, 110), AutoSize = true };
-            //Label lblIdealWeight = new Label { Text = $"Ideal Weight: {idealKilo:F2} kg", Location = new Point(20, 140), AutoSize = true };
-            //Label lblMetabolicAge = new Label { Text = $"Metabolic Age: {yas}", Location = new Point(20, 170), AutoSize = true };
+            Label lblAmount = new Label
+            {
+                Text = $"💰 Tutar: {totalAmount} ₺",
+                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                Location = new Point(20, 45),
+                AutoSize = true
+            };
 
-            infoBar.Controls.Add(lbInvoice);
-            infoBar.Controls.Add(lbTotalAmount);
-            infoBar.Controls.Add(lbPoints);
-            infoBar.Controls.Add(lbCardNum);
-            infoBar.Controls.Add(lbDate);
-            userInfoPanel.Controls.Add(infoBar);
+            Label lblCard = new Label
+            {
+                Text = $"💳 Kart: **** **** **** {cardNum.Substring(cardNum.Length - 4)}",
+                Font = new Font("Segoe UI", 10, FontStyle.Italic),
+                Location = new Point(20, 105),
+                AutoSize = true
+            };
 
+            Label lblDate = new Label
+            {
+                Text = $"🗓 Tarih: {date}",
+                Font = new Font("Segoe UI", 10, FontStyle.Italic),
+                ForeColor = Color.Gray,
+                Location = new Point(550, 110),
+                AutoSize = true
+            };
+
+            cardPanel.Controls.Add(lblInvoice);
+            cardPanel.Controls.Add(lblAmount);
+            cardPanel.Controls.Add(lblCard);
+            cardPanel.Controls.Add(lblDate);
+
+            userInfoPanel.Controls.Add(cardPanel);
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
