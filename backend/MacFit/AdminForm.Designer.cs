@@ -76,6 +76,7 @@
             this.SeansBtn.Size = new System.Drawing.Size(240, 55);
             this.SeansBtn.TabIndex = 2;
             this.SeansBtn.Text = "Seans Oluştur";
+            this.SeansBtn.Click += new System.EventHandler(this.SeansBtn_Click);
             // 
             // YagOraniBtn
             // 
