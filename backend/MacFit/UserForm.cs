@@ -188,6 +188,23 @@ namespace MacFit
                 double amount = 150.0;
                 int invoiceId = new Random().Next(2000, 9999); // örnek için
 
+                using (var checkConn = new NpgsqlConnection(connString))
+                {
+                    checkConn.Open();
+                    string checkQuery = "SELECT COUNT(*) FROM appointment WHERE member_id = @mid AND session_id = @sid";
+                    using (var checkCmd = new NpgsqlCommand(checkQuery, checkConn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@mid", userId);
+                        checkCmd.Parameters.AddWithValue("@sid", selectedSessionId);
+                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Bu seansı zaten seçtiniz. Lütfen başka bir seans seçin.");
+                            return;
+                        }
+                    }
+                }
+
                 using (var conn = new NpgsqlConnection(connString))
                 {
                     conn.Open();
