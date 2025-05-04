@@ -577,66 +577,61 @@ namespace MacFit
 
             Guna2Panel workoutPanel = new Guna2Panel
             {
-                Size = new Size(800, 600),
+                Size = new Size(850, 600),
                 Location = new Point(300, 10),
                 BorderColor = Color.Black,
-                BorderThickness = 1
+                BorderThickness = 1,
+                BorderRadius = 15,
+                BackColor = Color.White
             };
             this.Controls.Add(workoutPanel);
+
+            Label lblTitle = new Label
+            {
+                Text = "Workout Plan İşlemleri",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                AutoSize = true,
+                Location = new Point((workoutPanel.Width - 250) / 2, 30)
+            };
+            workoutPanel.Controls.Add(lblTitle);
 
             // Yeni Plan Oluştur Butonu
             Guna2Button createPlanBtn = new Guna2Button
             {
                 Text = "Yeni Plan Oluştur",
-                Location = new Point(20, 80),
                 Size = new Size(200, 50),
-                BorderRadius = 10
+                BorderRadius = 10,
+                FillColor = Color.DodgerBlue,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
-            workoutPanel.Controls.Add(createPlanBtn);
 
             // Planları Görüntüle / Güncelle / Sil Butonu
-            var btnManagePlans = new Guna2Button
+            Guna2Button btnManagePlans = new Guna2Button
             {
-                Text = "Planları Görüntüle / Güncelle / Sil",
+                Text = "Planları Görüntüle",
                 Size = new Size(300, 50),
-                Location = new Point(240, 80),
                 BorderRadius = 10,
-                Font = new Font("Segoe UI", 11, FontStyle.Regular),
-                FillColor = Color.Firebrick,
-                ForeColor = Color.White
+                FillColor = Color.ForestGreen,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
+
+            // Ortalamak için konumları ayarla
+            int totalWidth = createPlanBtn.Width + 20 + btnManagePlans.Width;
+            int startX = (workoutPanel.Width - totalWidth) / 2;
+
+            createPlanBtn.Location = new Point(startX, 100);
+            btnManagePlans.Location = new Point(startX + createPlanBtn.Width + 20, 100);
+
+            workoutPanel.Controls.Add(createPlanBtn);
             workoutPanel.Controls.Add(btnManagePlans);
 
-            Dictionary<int, string> planMap = new Dictionary<int, string>();
-            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
-            {
-                conn.Open();
-                string query = "SELECT id, title FROM workout_plan WHERE member_id = @userId";
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@userId", userId);
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = reader.GetInt32(0);
-                            string title = reader.GetString(1);
-                            planMap.Add(id, title);
-                        }
-                    }
-                }
-            }
-
-            btnManagePlans.Click += (s, evt) =>
-            {
-                ShowWorkoutPlanManagerForUser();
-            };
-
-            createPlanBtn.Click += (s, evt) =>
-            {
-                ShowWorkoutPlanCreatorPanel();
-            };
+            // Event binding
+            btnManagePlans.Click += (s, evt) => ShowWorkoutPlanManagerForUser();
+            createPlanBtn.Click += (s, evt) => ShowWorkoutPlanCreatorPanel();
         }
+
 
         private void LoadExercisesForPlan(int planId, DataGridView grid)
         {

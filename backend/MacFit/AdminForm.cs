@@ -773,38 +773,48 @@ namespace MacFit
             {
                 Text = "Workout Plan İşlemleri",
                 Font = new Font("Segoe UI", 18, FontStyle.Bold),
-                Location = new Point(20, 30),
                 AutoSize = true
             };
             panel.Controls.Add(lblTitle);
+
+            // Ortalamak için konum veriyoruz (lblTitle.AutoSize = true olduğu için önce eklemeliyiz)
+            lblTitle.Location = new Point((panel.Width - lblTitle.PreferredWidth) / 2, 30);
 
             var btnCreate = new Guna2Button
             {
                 Text = "Yeni Plan Oluştur",
                 Size = new Size(250, 50),
-                Location = new Point(60, 100),
                 BorderRadius = 10,
-                Font = new Font("Segoe UI", 11, FontStyle.Regular),
-                FillColor = Color.SeaGreen, 
+                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                FillColor = Color.SeaGreen,
                 ForeColor = Color.White
             };
-            panel.Controls.Add(btnCreate);
 
             var btnManage = new Guna2Button
             {
                 Text = "Planları Görüntüle / Güncelle / Sil",
                 Size = new Size(300, 50),
-                Location = new Point(330, 100), 
                 BorderRadius = 10,
-                Font = new Font("Segoe UI", 11, FontStyle.Regular),
-                FillColor = Color.Firebrick, 
+                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                FillColor = Color.DodgerBlue,
                 ForeColor = Color.White
             };
+
+            int spacing = 20;
+            int totalWidth = btnCreate.Width + spacing + btnManage.Width;
+            int startX = (panel.Width - totalWidth) / 2;
+
+            btnCreate.Location = new Point(startX, 100);
+            btnManage.Location = new Point(startX + btnCreate.Width + spacing, 100);
+
+            panel.Controls.Add(btnCreate);
             panel.Controls.Add(btnManage);
 
             btnCreate.Click += (s, e) => ShowWorkoutPlanPanel();
             btnManage.Click += (s, e) => ShowWorkoutPlanManagerPanel();
         }
+
+
 
         private void ShowWorkoutPlanPanel()
         {
