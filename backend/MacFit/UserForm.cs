@@ -265,7 +265,7 @@ namespace MacFit
             using (var conn = new NpgsqlConnection(connString))
             {
                 conn.Open();
-                string query = "SELECT id AS \"Plan ID\", title AS \"Plan Adı\" FROM workout_plan WHERE member_id = @userId ORDER BY id";
+                string query = "SELECT id AS \"Plan ID\", title AS \"Plan Adı\" FROM workout_plan ORDER BY id";
                 var da = new NpgsqlDataAdapter(query, conn);
                 da.SelectCommand.Parameters.AddWithValue("@userId", userId);
                 DataTable dt = new DataTable();
@@ -303,116 +303,6 @@ namespace MacFit
                                 }
                             }
                         }
-                    }
-                }
-            };
-
-            var btnUpdate = new Guna2Button
-            {
-                Text = "Güncelle",
-                Location = new Point(450, 50),
-                Size = new Size(120, 40),
-                BorderRadius = 10
-            };
-            panel.Controls.Add(btnUpdate);
-
-            btnUpdate.Click += (s, e) =>
-            {
-                if (selectedPlanId == -1)
-                {
-                    MessageBox.Show("Lütfen bir plan seçin.");
-                    return;
-                }
-
-                using (var conn = new NpgsqlConnection(connString))
-                {
-                    conn.Open();
-                    string del = "DELETE FROM workout_plan_exercise WHERE workout_plan_id = @id";
-                    using (var cmd = new NpgsqlCommand(del, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@id", selectedPlanId);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    foreach (DataGridViewRow row in dgvDetails.Rows)
-                    {
-                        if (row.IsNewRow) continue;
-                        string exercise = row.Cells[0].Value.ToString();
-
-                        int exerciseId;
-                        using (var cmd = new NpgsqlCommand("SELECT id FROM exercise WHERE name = @name", conn))
-                        {
-                            cmd.Parameters.AddWithValue("@name", exercise);
-                            exerciseId = Convert.ToInt32(cmd.ExecuteScalar());
-                        }
-
-                        string insert = @"INSERT INTO workout_plan_exercise 
-                          (workout_plan_id, exercise_id, sets, reps, weight, calories_burnt) 
-                          VALUES (@planId, @exId, @sets, @reps, @weight, @cal)";
-                        using (var cmd = new NpgsqlCommand(insert, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@planId", selectedPlanId);
-                            cmd.Parameters.AddWithValue("@exId", exerciseId);
-                            cmd.Parameters.AddWithValue("@sets", Convert.ToInt32(row.Cells[1].Value));
-                            cmd.Parameters.AddWithValue("@reps", Convert.ToInt32(row.Cells[2].Value));
-                            cmd.Parameters.AddWithValue("@weight", Convert.ToInt32(row.Cells[3].Value));
-                            cmd.Parameters.AddWithValue("@cal", Convert.ToInt32(row.Cells[4].Value));
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-
-                    MessageBox.Show("Plan güncellendi.");
-                }
-            };
-
-            var btnDelete = new Guna2Button
-            {
-                Text = "Sil",
-                FillColor = Color.Firebrick,
-                Location = new Point(580, 50),
-                Size = new Size(120, 40),
-                BorderRadius = 10
-            };
-            panel.Controls.Add(btnDelete);
-
-            btnDelete.Click += (s, e) =>
-            {
-                if (selectedPlanId == -1)
-                {
-                    MessageBox.Show("Lütfen bir plan seçin.");
-                    return;
-                }
-
-                var result = MessageBox.Show("Bu planı silmek istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    using (var conn = new NpgsqlConnection(connString))
-                    {
-                        conn.Open();
-
-                        string del1 = "DELETE FROM workout_plan_exercise WHERE workout_plan_id = @id";
-                        using (var cmd = new NpgsqlCommand(del1, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@id", selectedPlanId);
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        string del2 = "DELETE FROM workout_plan WHERE id = @id";
-                        using (var cmd = new NpgsqlCommand(del2, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@id", selectedPlanId);
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        MessageBox.Show("Plan silindi.");
-                        dgvDetails.Rows.Clear();
-
-                        string query = "SELECT id AS \"Plan ID\", title AS \"Plan Adı\" FROM workout_plan WHERE member_id = @userId ORDER BY id";
-                        var da = new NpgsqlDataAdapter(query, conn);
-                        da.SelectCommand.Parameters.AddWithValue("@userId", userId);
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        dgvPlans.DataSource = dt;
                     }
                 }
             };
