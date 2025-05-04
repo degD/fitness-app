@@ -130,7 +130,7 @@ namespace MacFit
                 }
 
                 // Seansları getir
-                string sessionQuery = "SELECT id, date, \"start\", \"end\", type FROM session WHERE status = 1 AND current_capacity < total_capacity";
+                string sessionQuery = "SELECT id, date, \"start\", \"end\", type, current_capacity, total_capacity FROM session WHERE status = 1 AND current_capacity < total_capacity";
                 using (var cmd = new NpgsqlCommand(sessionQuery, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -141,9 +141,17 @@ namespace MacFit
                         TimeSpan start = reader.GetTimeSpan(2);
                         TimeSpan end = reader.GetTimeSpan(3);
                         int type = reader.GetInt32(4);
-                        string typeLabel = type == 1 ? "Grup Seansı" : type == 2 ? "Bireysel Seans" : "Antrenörlü Seans";
+                        int current = reader.GetInt32(5);
+                        int total = reader.GetInt32(6);
 
-                        string label = string.Format("{0:yyyy-MM-dd} | {1:hh\\:mm} - {2:hh\\:mm} | {3}", date, start, end, typeLabel);
+                        string typeLabel = type == 1 ? "Grup Seansı" :
+                                           type == 2 ? "Bireysel Seans" :
+                                           "Antrenörlü Seans";
+
+                        string label = string.Format(
+                            "{0:yyyy-MM-dd} | {1:hh\\:mm} - {2:hh\\:mm} | {3} ({4}/{5})",
+                            date, start, end, typeLabel, current, total);
+
                         sessionMap[label] = id;
                         cmbSession.Items.Add(label);
                     }
