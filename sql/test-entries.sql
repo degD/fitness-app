@@ -98,5 +98,19 @@ INSERT INTO "transaction" ("member_id", "card_number", "invoice_id", "total_amou
 ('12345678901', '1111222233334444', 1200, 150.0, 50.0, '2025-03-20'),   -- Ali Yılmaz, Kredi Kartı
 ('12345678901', '1111222233334444', 1300, 150.0, 50.0, '2025-03-20'),   -- Ali Yılmaz, Kredi Kartı
 
+UPDATE member SET password = '$2a$11$DQqeqBSKjP1LVjZrWTpcoOa1ORZuJZExhI2sT8oyDcBjxqx0dvh1i' WHERE id = '12345678901';
+UPDATE member SET password = '$2a$11$zNmjIEMMvLKXda6pVKvSn.hAi4OqEVVJbhM6t8q1WGC5LJFEAoIFC' WHERE id = '23456789012';
+UPDATE member SET password = '$2a$11$E4P88RPuO1aL3p9wpuImqOWVOAxYc7Tg0wQFdkFxLxWBKCOsKi/fO' WHERE id = '34567890123';
+UPDATE member SET password = '$2a$11$Vr9MQ1RRSYjGTUax.XN5suDEz3NHEJkVR44LzAJS4d2nQ3LVcXWI2' WHERE id = '45678901234';
+UPDATE member SET password = '$2a$11$6IT3YZsn.fhhqfwzGqgZKu4RHO4jqCEdVDmEQ9wT9.vcfpjpkfPWq' WHERE id = '56789012345';
+UPDATE member SET password = '$2a$11$DrUFG65fOBsf1xi5xDwTne89N7yXtDMKYpsW6OWgJIT1ILAJZ5mDq' WHERE id = '67890123456';
+UPDATE member SET password = '$2a$11$Qy3SeIfmFr4keFSfq51ScOSs9ARrM18C5j6p0ejrLrBp5Mw43ksvO' WHERE id = '78901234567';
+UPDATE member SET password = '$2a$11$MREj3xJCrVXsbATelvP7heR2Pnn7ebNj3VOet9L0oZp1NDYyEtRuC' WHERE id = '89012345678';
+UPDATE member SET password = '$2a$11$OBofYBWn8QMM2raYq3XY1.kqT7n9FKRM3aBQfp2JglXRwAilkrGjq' WHERE id = '90123456789';
+UPDATE member SET password = '$2a$11$wrfUdsNW8cc0E4IJdwT91eWAp8AzU7FF33KZLZsfBmvWOfWDVxF.O' WHERE id = '01234567890';
+
+ALTER TABLE member ALTER COLUMN password TYPE TEXT;
+
+
 
 
