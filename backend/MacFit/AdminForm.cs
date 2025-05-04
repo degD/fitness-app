@@ -61,73 +61,137 @@ namespace MacFit
         }
         private void ShowTrainerPanel()
         {
-            ClearPanels(); // Önceki paneli temizle
+            ClearPanels();
 
-            Guna2Panel trainerPanel = new Guna2Panel
+            var panel = new Guna2Panel
             {
-                Size = new Size(800, 600),
-                Location = new Point(300, 10)
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 15,
+                BorderColor = Color.Silver,
+                BorderThickness = 1,
+                BackColor = Color.White
             };
-            this.Controls.Add(trainerPanel);
+            this.Controls.Add(panel);
 
-            // Label, Textbox ve Save butonları
-            Label lblTitle = new Label { Text = "Yeni Antrenör Kaydı", Font = new Font("Segoe UI", 14, FontStyle.Bold), Location = new Point(20, 20), AutoSize = true };
-            trainerPanel.Controls.Add(lblTitle);
-
-            Label lblName = new Label { Text = "Ad Soyad:", Location = new Point(20, 70), AutoSize = true };
-            trainerPanel.Controls.Add(lblName);
-            TextBox txtName = new TextBox { Location = new Point(100, 65), Size = new Size(250, 30) };
-            trainerPanel.Controls.Add(txtName);
-
-            Label lblPhone = new Label { Text = "Telefon:", Location = new Point(20, 110), AutoSize = true };
-            trainerPanel.Controls.Add(lblPhone);
-            TextBox txtPhone = new TextBox { Location = new Point(100, 105), Size = new Size(250, 30) };
-            trainerPanel.Controls.Add(txtPhone);
-
-            Button btnSave = new Button { Text = "Kaydet", Location = new Point(100, 150), Size = new Size(100, 30) };
-            trainerPanel.Controls.Add(btnSave);
-
-            Button btnUpdate = new Button { Text = "Güncelle", Location = new Point(210, 150), Size = new Size(100, 30), Enabled = false };
-            trainerPanel.Controls.Add(btnUpdate);
-
-            Button btnDelete = new Button { Text = "Sil", Location = new Point(320, 150), Size = new Size(100, 30), Enabled = false };
-            trainerPanel.Controls.Add(btnDelete);
-
-            Label lblStatus = new Label { ForeColor = Color.DarkGreen, Location = new Point(20, 190), AutoSize = true };
-            trainerPanel.Controls.Add(lblStatus);
-
-            DataGridView dgvTrainers = new DataGridView
+            var container = new Guna2Panel
             {
-                Location = new Point(20, 230),
-                Size = new Size(750, 300),
+                Size = new Size(800, 200),
+                Location = new Point(25, 20),
+                BorderRadius = 12,
+                FillColor = Color.FromArgb(245, 245, 245)
+            };
+            panel.Controls.Add(container);
+
+            Label lblTitle = new Label
+            {
+                Text = "Antrenör Ekle / Güncelle / Sil",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
+            container.Controls.Add(lblTitle);
+
+            var txtName = new Guna2TextBox
+            {
+                PlaceholderText = "Ad Soyad",
+                Location = new Point(20, 60),
+                Size = new Size(250, 40),
+                BorderRadius = 10,
+                ForeColor = Color.Black,
+                PlaceholderForeColor = Color.DimGray
+            };
+            container.Controls.Add(txtName);
+
+            var txtPhone = new Guna2TextBox
+            {
+                PlaceholderText = "Telefon",
+                Location = new Point(290, 60),
+                Size = new Size(200, 40),
+                BorderRadius = 10,
+                ForeColor = Color.Black,
+                PlaceholderForeColor = Color.DimGray
+            };
+            container.Controls.Add(txtPhone);
+
+            var btnSave = new Guna2Button
+            {
+                Text = "Kaydet",
+                Location = new Point(510, 60),
+                Size = new Size(100, 40),
+                BorderRadius = 10
+            };
+            container.Controls.Add(btnSave);
+
+            var btnUpdate = new Guna2Button
+            {
+                Text = "Güncelle",
+                Location = new Point(620, 60),
+                Size = new Size(100, 40),
+                BorderRadius = 10,
+                Enabled = false,
+                FillColor = Color.SeaGreen,
+                HoverState = { FillColor = Color.MediumSeaGreen },
+                ForeColor = Color.White
+            };
+            container.Controls.Add(btnUpdate);
+
+            var btnDelete = new Guna2Button
+            {
+                Text = "Sil",
+                Location = new Point(730, 60),
+                Size = new Size(60, 40),
+                FillColor = Color.Firebrick,
+                BorderRadius = 10,
+                Enabled = false
+            };
+            container.Controls.Add(btnDelete);
+
+            var lblStatus = new Label
+            {
+                Location = new Point(20, 110),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                ForeColor = Color.DarkGreen
+            };
+            container.Controls.Add(lblStatus);
+
+            var dgv = new Guna2DataGridView
+            {
+                Location = new Point(25, 240),
+                Size = new Size(800, 330),
                 AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
                 ReadOnly = true,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                ThemeStyle = {
+            AlternatingRowsStyle = { BackColor = Color.WhiteSmoke }
+        },
+                RowTemplate = { Height = 28 }
             };
-            trainerPanel.Controls.Add(dgvTrainers);
+            panel.Controls.Add(dgv);
 
-            LoadTrainerList(dgvTrainers); // Listeyi yükle
+            LoadTrainerList(dgv);
 
-            int selectedTrainerId = -1;
+            // Kolon başlıklarını düzelt
+            dgv.Columns[0].HeaderText = "Id";
+            dgv.Columns[1].HeaderText = "Name";
+            dgv.Columns[2].HeaderText = "Phone";
 
-            dgvTrainers.CellClick += (s, e) =>
+            int selectedId = -1;
+
+            dgv.CellClick += (s, e) =>
             {
                 if (e.RowIndex >= 0)
                 {
-                    selectedTrainerId = Convert.ToInt32(dgvTrainers.Rows[e.RowIndex].Cells["Id"].Value);
-                    txtName.Text = dgvTrainers.Rows[e.RowIndex].Cells["Name"].Value.ToString();
-                    txtPhone.Text = dgvTrainers.Rows[e.RowIndex].Cells["Phone"].Value.ToString();
-                    btnUpdate.Enabled = true;
-                    btnDelete.Enabled = true;
+                    selectedId = Convert.ToInt32(dgv.Rows[e.RowIndex].Cells["id"].Value);
+                    txtName.Text = dgv.Rows[e.RowIndex].Cells["name"].Value.ToString();
+                    txtPhone.Text = dgv.Rows[e.RowIndex].Cells["phone"].Value.ToString();
+                    btnUpdate.Enabled = btnDelete.Enabled = true;
                 }
             };
 
             btnSave.Click += (s, e) =>
             {
-                string name = txtName.Text.Trim();
-                string phone = txtPhone.Text.Trim();
-
-                if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(phone))
+                if (txtName.Text.Trim() == "" || txtPhone.Text.Trim() == "")
                 {
                     lblStatus.ForeColor = Color.Red;
                     lblStatus.Text = "Tüm alanları doldurun.";
@@ -140,32 +204,20 @@ namespace MacFit
                     string query = "INSERT INTO trainer (id, name, phone) VALUES ((SELECT COALESCE(MAX(id), 0) + 1 FROM trainer), @name, @phone)";
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@name", name);
-                        cmd.Parameters.AddWithValue("@phone", phone);
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                            lblStatus.ForeColor = Color.Green;
-                            lblStatus.Text = "Antrenör başarıyla kaydedildi.";
-                            txtName.Clear();
-                            txtPhone.Clear();
-                            LoadTrainerList(dgvTrainers);
-                        }
-                        catch (Exception ex)
-                        {
-                            lblStatus.ForeColor = Color.Red;
-                            lblStatus.Text = "Hata: " + ex.Message;
-                        }
+                        cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@phone", txtPhone.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                        lblStatus.ForeColor = Color.Green;
+                        lblStatus.Text = "Antrenör eklendi.";
+                        txtName.Clear(); txtPhone.Clear();
+                        LoadTrainerList(dgv);
                     }
                 }
             };
 
             btnUpdate.Click += (s, e) =>
             {
-                if (selectedTrainerId == -1) return;
-
-                string updatedName = txtName.Text.Trim();
-                string updatedPhone = txtPhone.Text.Trim();
+                if (selectedId == -1) return;
 
                 using (var conn = new NpgsqlConnection(connString))
                 {
@@ -173,36 +225,25 @@ namespace MacFit
                     string query = "UPDATE trainer SET name = @name, phone = @phone WHERE id = @id";
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@id", selectedTrainerId);
-                        cmd.Parameters.AddWithValue("@name", updatedName);
-                        cmd.Parameters.AddWithValue("@phone", updatedPhone);
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                            lblStatus.ForeColor = Color.Green;
-                            lblStatus.Text = "Antrenör güncellendi.";
-                            LoadTrainerList(dgvTrainers);
-                            txtName.Clear();
-                            txtPhone.Clear();
-                            btnUpdate.Enabled = false;
-                            btnDelete.Enabled = false;
-                            selectedTrainerId = -1;
-                        }
-                        catch (Exception ex)
-                        {
-                            lblStatus.ForeColor = Color.Red;
-                            lblStatus.Text = "Hata: " + ex.Message;
-                        }
+                        cmd.Parameters.AddWithValue("@id", selectedId);
+                        cmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@phone", txtPhone.Text.Trim());
+                        cmd.ExecuteNonQuery();
+                        lblStatus.ForeColor = Color.Green;
+                        lblStatus.Text = "Antrenör güncellendi.";
+                        txtName.Clear(); txtPhone.Clear();
+                        selectedId = -1;
+                        btnUpdate.Enabled = btnDelete.Enabled = false;
+                        LoadTrainerList(dgv);
                     }
                 }
             };
 
             btnDelete.Click += (s, e) =>
             {
-                if (selectedTrainerId == -1) return;
+                if (selectedId == -1) return;
 
-                var result = MessageBox.Show("Bu antrenörü silmek istediğinizden emin misiniz?", "Onay", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+                if (MessageBox.Show("Silmek istediğinizden emin misiniz?", "Onay", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     using (var conn = new NpgsqlConnection(connString))
                     {
@@ -210,29 +251,21 @@ namespace MacFit
                         string query = "DELETE FROM trainer WHERE id = @id";
                         using (var cmd = new NpgsqlCommand(query, conn))
                         {
-                            cmd.Parameters.AddWithValue("@id", selectedTrainerId);
-                            try
-                            {
-                                cmd.ExecuteNonQuery();
-                                lblStatus.ForeColor = Color.Green;
-                                lblStatus.Text = "Antrenör silindi.";
-                                LoadTrainerList(dgvTrainers);
-                                txtName.Clear();
-                                txtPhone.Clear();
-                                btnUpdate.Enabled = false;
-                                btnDelete.Enabled = false;
-                                selectedTrainerId = -1;
-                            }
-                            catch (Exception ex)
-                            {
-                                lblStatus.ForeColor = Color.Red;
-                                lblStatus.Text = "Hata: " + ex.Message;
-                            }
+                            cmd.Parameters.AddWithValue("@id", selectedId);
+                            cmd.ExecuteNonQuery();
+                            lblStatus.ForeColor = Color.Green;
+                            lblStatus.Text = "Antrenör silindi.";
+                            txtName.Clear(); txtPhone.Clear();
+                            selectedId = -1;
+                            btnUpdate.Enabled = btnDelete.Enabled = false;
+                            LoadTrainerList(dgv);
                         }
                     }
                 }
             };
         }
+
+
 
         private void LoadTrainerList(DataGridView grid)
         {
