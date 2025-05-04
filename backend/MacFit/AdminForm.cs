@@ -1281,7 +1281,109 @@ namespace MacFit
             };
         }
 
+        private void GOdemelerBtn_Click(object sender, EventArgs e)
+        {
+            ShowTransactionPanel();
+        }
 
+        private void ShowTransactionPanel()
+        {
+            ClearPanels();
+
+            var panel = new Guna2Panel
+            {
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 10,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
+            };
+            this.Controls.Add(panel);
+
+            Label lblTitle = new Label
+            {
+                Text = "Ödeme Geçmişi",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
+            panel.Controls.Add(lblTitle);
+
+            Label lblFilter = new Label
+            {
+                Text = "Kullanıcı TC:",
+                Location = new Point(20, 60),
+                AutoSize = true
+            };
+            panel.Controls.Add(lblFilter);
+
+            Guna2TextBox txtFilter = new Guna2TextBox
+            {
+                PlaceholderText = "TC kimlik numarası",
+                Location = new Point(110, 55),
+                Size = new Size(200, 30)
+            };
+            panel.Controls.Add(txtFilter);
+
+            Guna2Button btnFilter = new Guna2Button
+            {
+                Text = "Filtrele",
+                Location = new Point(320, 55),
+                Size = new Size(100, 30)
+            };
+            panel.Controls.Add(btnFilter);
+
+            Guna2DataGridView dgv = new Guna2DataGridView
+            {
+                Location = new Point(20, 100),
+                Size = new Size(800, 450),
+                ReadOnly = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                ThemeStyle = { AlternatingRowsStyle = { BackColor = Color.WhiteSmoke } }
+            };
+            panel.Controls.Add(dgv);
+
+            void LoadTransactions(string filter = "")
+            {
+                using (var conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+                    string query = @"
+                SELECT 
+                    t.invoice_id AS ""Fatura No"",
+                    m.id AS ""Üye TC"",
+                    m.name AS ""Üye Adı"",
+                    t.total_amount AS ""Tutar"",
+                    t.points_used AS ""Kullanılan Puan"",
+                    t.date AS ""Tarih""
+                FROM transaction t
+                JOIN member m ON t.member_id = m.id
+                " + (string.IsNullOrWhiteSpace(filter) ? "" : "WHERE m.id = @filter") + @"
+                ORDER BY t.date DESC";
+
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        if (!string.IsNullOrWhiteSpace(filter))
+                            cmd.Parameters.AddWithValue("@filter", filter);
+
+                        using (var da = new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            dgv.DataSource = dt;
+                        }
+                    }
+                }
+            }
+
+            LoadTransactions();
+
+            btnFilter.Click += (s, e) =>
+            {
+                LoadTransactions(txtFilter.Text.Trim());
+            };
+        }
 
     }
 }
