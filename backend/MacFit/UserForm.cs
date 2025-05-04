@@ -224,7 +224,7 @@ namespace MacFit
             };
         }
 
-        private void SeansBtn_Click(object sender, EventArgs e)
+        private void SeansOdemeBtn_Click(object sender, EventArgs e)
         {
             ShowMembershipAndSessionPaymentPanel();
         }

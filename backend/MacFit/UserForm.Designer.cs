@@ -186,30 +186,11 @@
             this.SeansBtn.ForeColor = System.Drawing.Color.White;
             this.SeansBtn.Location = new System.Drawing.Point(16, 283);
             this.SeansBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.SeansBtn.Name = "SeansBtn";
+            this.SeansBtn.Name = "SeansOdemeBtn";
             this.SeansBtn.Size = new System.Drawing.Size(240, 55);
             this.SeansBtn.TabIndex = 2;
-            this.SeansBtn.Text = "Seans Seç";
-            this.SeansBtn.Click += new System.EventHandler(this.SeansBtn_Click);
-            // 
-            // UyelikBtn
-            // 
-            this.UyelikBtn.BackColor = System.Drawing.Color.DimGray;
-            this.UyelikBtn.BorderRadius = 1000;
-            this.UyelikBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.UyelikBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.UyelikBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.UyelikBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.UyelikBtn.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(4)))), ((int)(((byte)(68)))));
-            this.UyelikBtn.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.UyelikBtn.ForeColor = System.Drawing.Color.White;
-            this.UyelikBtn.Location = new System.Drawing.Point(16, 192);
-            this.UyelikBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.UyelikBtn.Name = "UyelikBtn";
-            this.UyelikBtn.Size = new System.Drawing.Size(240, 55);
-            this.UyelikBtn.TabIndex = 2;
-            this.UyelikBtn.Text = "Üyelik Al";
-            this.UyelikBtn.Click += new System.EventHandler(this.UyelikBtn_Click);
+            this.SeansBtn.Text = "Seans ve Ödeme";
+            this.SeansBtn.Click += new System.EventHandler(this.SeansOdemeBtn_Click);
             // 
             // appointmentsDataGridView
             // 
