@@ -1485,5 +1485,21 @@ namespace MacFit
         {
 
         }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            // Show a confirmation dialog before logging out  
+            var result = MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // Close the current form  
+                this.Hide();
+
+                // Show the login form again  
+                var loginForm = new LoginPage(connString);
+                loginForm.Show();
+            }
+        }
     }
 }
