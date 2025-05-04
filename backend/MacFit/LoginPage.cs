@@ -19,6 +19,12 @@ namespace MacFit
         {
             this.connString = connString;
             InitializeComponent();
+            passwordBox.PasswordChar = '●';
+            passwordBox.UseSystemPasswordChar = true;
+            LoginPasswordBox.PasswordChar = '●';
+            LoginPasswordBox.UseSystemPasswordChar = true;
+            AdminPassBox.PasswordChar = '●';
+            AdminPassBox.UseSystemPasswordChar = true;
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
