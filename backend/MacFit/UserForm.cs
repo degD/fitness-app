@@ -766,70 +766,171 @@ namespace MacFit
 
         private void KaloriBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ClearPanels();
-                DataTable appointmentsTable = new DataTable();
-                appointmentsTable.Columns.Add("Appointment ID");
-                appointmentsTable.Columns.Add("Session Date");
-                appointmentsTable.Columns.Add("Workout Plan");
-                appointmentsTable.Columns.Add("Calories Burnt");
+            ShowCalorieCalculatorPanel();
+        }
+        private void ShowCalorieCalculatorPanel()
+        {
+            ClearPanels();
 
-                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            var panel = new Guna2Panel
+            {
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 15,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
+            };
+            this.Controls.Add(panel);
+
+            Label lblTitle = new Label
+            {
+                Text = "Kalori İhtiyacı Hesapla",
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                Location = new Point(20, 15),
+                AutoSize = true
+            };
+            panel.Controls.Add(lblTitle);
+
+            // Labels
+            Label lblActivity = new Label { Text = "Aktivite Düzeyi:", Location = new Point(20, 60), AutoSize = true };
+            panel.Controls.Add(lblActivity);
+            Guna2ComboBox cmbActivity = new Guna2ComboBox
+            {
+                Location = new Point(150, 55),
+                Size = new Size(300, 35),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Items =
+        {
+            "Sedanter (Hareketsiz)",
+            "Orta Aktivite (2-3 Gün Spor)",
+            "Hareketli (4-5 Gün Spor)"
+        }
+            };
+            panel.Controls.Add(cmbActivity);
+
+            Label lblGoal = new Label { Text = "Hedef:", Location = new Point(20, 110), AutoSize = true };
+            panel.Controls.Add(lblGoal);
+            Guna2ComboBox cmbGoal = new Guna2ComboBox
+            {
+                Location = new Point(150, 105),
+                Size = new Size(300, 35),
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                Items =
+        {
+            "Yağ Kaybetme",
+            "Kas Kazanma",
+            "Kütle Koruma"
+        }
+            };
+            panel.Controls.Add(cmbGoal);
+
+            // Hesapla Butonu
+            Guna2Button btnCalculate = new Guna2Button
+            {
+                Text = "Hesapla",
+                Location = new Point(470, 105),
+                Size = new Size(100, 35),
+                BorderRadius = 8
+            };
+            panel.Controls.Add(btnCalculate);
+
+            // Sonuç alanı
+            Label lblResult = new Label
+            {
+                Location = new Point(20, 160),
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                Size = new Size(800, 30)
+            };
+            panel.Controls.Add(lblResult);
+
+            GunaChart chart = new GunaChart
+            {
+                Size = new Size(400, 300),
+                Location = new Point(20, 200)
+            };
+            panel.Controls.Add(chart);
+
+            btnCalculate.Click += (s, e) =>
+            {
+                double kilo = 0, boy = 0, yagOrani = 0;
+                int yas = 0;
+                string gender = "";
+
+                using (var conn = new NpgsqlConnection(connString))
                 {
                     conn.Open();
-                    string query = @"
-                SELECT 
-                    a.id AS appointment_id,
-                    s.date AS session_date,
-                    wp.title AS workout_plan,
-                    SUM(wpe.calories_burnt) AS calories_burnt
-                FROM 
-                    session s
-                JOIN 
-                    appointment a ON s.id = a.session_id
-                JOIN 
-                    workout_plan wp ON a.workout_plan_id = wp.id
-                JOIN 
-                    workout_plan_exercise wpe ON wp.id = wpe.workout_plan_id
-                WHERE 
-                    a.status = 1 AND a.member_id = @userId
-                GROUP BY 
-                    a.id, s.date, wp.title;"; // Completed sessions
-
-                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    string query = "SELECT weight, height, birth_date, gender FROM Member WHERE id = @id";
+                    using (var cmd = new NpgsqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@userId", this.userId);
-                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                        cmd.Parameters.AddWithValue("@id", this.userId);
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            while (reader.Read())
+                            if (reader.Read())
                             {
-                                DataRow row = appointmentsTable.NewRow();
-                                row["Appointment ID"] = reader.GetInt32(0);
-                                row["Session Date"] = reader.GetDateTime(1).ToShortDateString();
-                                row["Workout Plan"] = reader.GetString(2);
-                                row["Calories Burnt"] = reader.GetDouble(3);
-                                appointmentsTable.Rows.Add(row);
+                                kilo = Convert.ToDouble(reader[0]);
+                                boy = Convert.ToDouble(reader[1]);
+                                DateTime dogum = reader.GetDateTime(2);
+                                yas = DateTime.Now.Year - dogum.Year;
+                                if (DateTime.Now.DayOfYear < dogum.DayOfYear)
+                                    yas--;
+                                gender = reader.GetString(3);
+                                yagOrani = (1.20 * (kilo / (boy / 100 * boy / 100))) + (0.23 * yas) - 16.2;
                             }
                         }
                     }
                 }
-                this.Controls.Add(this.appointmentsDataGridView);
-                appointmentsDataGridView.DataSource = appointmentsTable;
-                appointmentsDataGridView.Visible = true; // Görünür yap
 
-                // İlk randevunun detaylarını göster
-                if (appointmentsTable.Rows.Count > 0)
+                double bmr = gender == "Erkek" ? (10 * kilo + 6.25 * boy - 5 * yas + 5) : (10 * kilo + 6.25 * boy - 5 * yas - 161);
+                double activityFactor = 1.2; // default
+
+                switch (cmbActivity.SelectedIndex)
                 {
-                    int firstAppointmentId = Convert.ToInt32(appointmentsTable.Rows[0]["Appointment ID"]);
-                    ShowAppointmentDetails(firstAppointmentId);
+                    case 0:
+                        activityFactor = 1.2;
+                        break;
+                    case 1:
+                        activityFactor = 1.375;
+                        break;
+                    case 2:
+                        activityFactor = 1.55;
+                        break;
                 }
-            }
-            catch (Exception ex)
+
+                double calorieNeed = bmr * activityFactor;
+
+                switch (cmbGoal.SelectedIndex)
+                {
+                    case 0: calorieNeed *= 0.85; break; // yağ kaybı
+                    case 1: calorieNeed *= 1.15; break; // kas kazanımı
+                }
+
+                int cal = (int)calorieNeed;
+                lblResult.Text = $"Tahmini günlük kalori ihtiyacınız: {cal} kcal";
+
+                int carb = (int)(cal * 0.5 / 4);
+                int protein = (int)(cal * 0.3 / 4);
+                int fat = (int)(cal * 0.2 / 9);
+
+                chart.Datasets.Clear();
+                chart.Datasets.Add(new GunaPieDataset
+                {
+                    Label = "Makro Dağılım",
+                    DataPoints =
             {
-                MessageBox.Show("Hata: " + ex.Message);
+                new LPoint("Karbonhidrat", carb),
+                new LPoint("Protein", protein),
+                new LPoint("Yağ", fat)
             }
+                });
+            };
         }
+
+
+
+
+
+
 
         private void AppointmentsDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
