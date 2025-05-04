@@ -102,6 +102,12 @@ CREATE TABLE admin_password (
   password_hash TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW()
 );
+
+ALTER TABLE member RENAME COLUMN points TO gender;
+ALTER TABLE member ALTER COLUMN gender TYPE varchar;
+
+
+
 INSERT INTO admin_password (id, password_hash) 
 VALUES (TRUE, '$2a$11$TR7nmf6dw4RQRLqeg3dJ0.8TgfUBwRePM4nv7lURdpAkQD0Co/iEi');
 -- Başlangıç admin şifresi: 'password'

@@ -124,13 +124,13 @@ namespace MacFit
             // Hash the password  
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(passwordBox.Text);
 
-            // Insert the user into the database  
             try
             {
                 using (NpgsqlConnection conn = new NpgsqlConnection(connString))
                 {
                     conn.Open();
-                    string query = "INSERT INTO Member (id, name, mail, phone, birth_date, weight, height, password, points) VALUES (@id, @name, @mail, @phone, @birthdate, @weight, @height, @password, @points)";
+                    string query = "INSERT INTO Member (id, name, mail, phone, birth_date, weight, height, gender, password, type) " +
+                                   "VALUES (@id, @name, @mail, @phone, @birthdate, @weight, @height, @gender, @password, 0)";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@id", idBox.Text);
@@ -140,9 +140,8 @@ namespace MacFit
                         cmd.Parameters.AddWithValue("@birthdate", birthdate);
                         cmd.Parameters.AddWithValue("@weight", weightBox.Value);
                         cmd.Parameters.AddWithValue("@height", heightBox.Value);
-                        //cmd.Parameters.AddWithValue("@gender", genderBox.SelectedItem.ToString());
+                        cmd.Parameters.AddWithValue("@gender", genderBox.SelectedItem.ToString());
                         cmd.Parameters.AddWithValue("@password", hashedPassword);
-                        cmd.Parameters.AddWithValue("@points", 0); // Default points value
                         cmd.ExecuteNonQuery();
                     }
                 }

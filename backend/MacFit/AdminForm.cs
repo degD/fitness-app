@@ -460,8 +460,8 @@ namespace MacFit
             };
             panel.Controls.Add(endTime);
 
-           startTime.Value = DateTime.Today.AddHours(10); // 10:00
-endTime.Value = DateTime.Today.AddHours(11);   // 11:00
+            startTime.Value = DateTime.Today.AddHours(10); // 10:00
+            endTime.Value = DateTime.Today.AddHours(11);   // 11:00
 
 
             // Seans Tipi
@@ -630,7 +630,91 @@ endTime.Value = DateTime.Today.AddHours(11);   // 11:00
             grid.RowTemplate.Height = 28;
         }
 
+        private void KaloriBtn_Click(object sender, EventArgs e)
+        {
+            ShowMemberListPanel();
+        }
 
+        private void ShowMemberListPanel()
+        {
+            ClearPanels();
+
+            var panel = new Guna2Panel
+            {
+                Size = new Size(850, 600),
+                Location = new Point(300, 10),
+                BorderRadius = 10,
+                BorderColor = Color.Gray,
+                BorderThickness = 1,
+                BackColor = Color.White
+            };
+            this.Controls.Add(panel);
+
+            Label title = new Label
+            {
+                Text = "Üye Listesi",
+                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                Location = new Point(20, 10),
+                AutoSize = true
+            };
+            panel.Controls.Add(title);
+
+            Guna2DataGridView memberGrid = new Guna2DataGridView
+            {
+                Location = new Point(20, 50),
+                Size = new Size(800, 500),
+                ReadOnly = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                ThemeStyle = { AlternatingRowsStyle = { BackColor = Color.WhiteSmoke } }
+            };
+            panel.Controls.Add(memberGrid);
+
+            LoadMemberGrid(memberGrid);
+        }
+
+        private void LoadMemberGrid(Guna2DataGridView grid)
+        {
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT 
+                id AS ""TC Kimlik"",
+                name AS ""Ad Soyad"",
+                mail AS ""E-posta"",
+                phone AS ""Telefon"",
+                weight AS ""Kilo"",
+                height AS ""Boy"",
+                birth_date AS ""Doğum Tarihi"",
+                gender AS ""Cinsiyet""
+            FROM member
+            WHERE type IS DISTINCT FROM 1
+            ORDER BY name;";
+
+                var da = new NpgsqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                grid.DataSource = dt;
+            }
+
+            // Genel olarak tüm alanı doldur
+            grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Kritik kolonlara özel genişlik ayarı
+            grid.Columns["TC Kimlik"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            grid.Columns["Ad Soyad"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            grid.Columns["E-posta"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            grid.Columns["Telefon"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            // Header'ların ilk harfini büyük yap
+            foreach (DataGridViewColumn col in grid.Columns)
+            {
+                col.HeaderText = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(col.HeaderText);
+            }
+
+            // Satır yüksekliğini biraz büyüt
+            grid.RowTemplate.Height = 28;
+        }
 
 
 

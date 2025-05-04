@@ -178,6 +178,7 @@
             this.KaloriBtn.Size = new System.Drawing.Size(240, 55);
             this.KaloriBtn.TabIndex = 2;
             this.KaloriBtn.Text = "Üye Listele";
+            this.KaloriBtn.Click += new System.EventHandler(this.KaloriBtn_Click);
             // 
             // AdminForm
             // 
