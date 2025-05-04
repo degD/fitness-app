@@ -11,31 +11,6 @@ using System.Windows.Forms;
 
 namespace MacFit
 {
-    public class FormInputBox : Form
-    {
-        public string InputText => textBox.Text;
-
-        private TextBox textBox;
-
-        public FormInputBox(string title, string prompt)
-        {
-            this.Text = title;
-            this.Size = new System.Drawing.Size(400, 150);
-
-            Label lbl = new Label() { Left = 10, Top = 10, Text = prompt, AutoSize = true };
-            textBox = new TextBox() { Left = 10, Top = 40, Width = 360 };
-            Button okBtn = new Button() { Text = "OK", Left = 210, Width = 75, Top = 70, DialogResult = DialogResult.OK };
-            Button cancelBtn = new Button() { Text = "Cancel", Left = 295, Width = 75, Top = 70, DialogResult = DialogResult.Cancel };
-
-            this.Controls.Add(lbl);
-            this.Controls.Add(textBox);
-            this.Controls.Add(okBtn);
-            this.Controls.Add(cancelBtn);
-
-            this.AcceptButton = okBtn;
-            this.CancelButton = cancelBtn;
-        }
-    }
     public partial class UserForm : Form
     {
         private string connString = "Host=localhost;Port=5432;Username=postgres;Password=123456;Database=fitnessdb";

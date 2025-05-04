@@ -36,7 +36,6 @@
             this.YagOraniBtn = new Guna.UI2.WinForms.Guna2Button();
             this.WorkoutBtn = new Guna.UI2.WinForms.Guna2Button();
             this.SeansBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.UyelikBtn = new Guna.UI2.WinForms.Guna2Button();
             this.appointmentsDataGridView = new System.Windows.Forms.DataGridView();
             this.lblHeight = new System.Windows.Forms.Label();
             this.lblWeight = new System.Windows.Forms.Label();
@@ -59,7 +58,6 @@
             this.panel1.Controls.Add(this.YagOraniBtn);
             this.panel1.Controls.Add(this.WorkoutBtn);
             this.panel1.Controls.Add(this.SeansBtn);
-            this.panel1.Controls.Add(this.UyelikBtn);
             this.panel1.Location = new System.Drawing.Point(0, 1);
             this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
@@ -284,7 +282,6 @@
         private Guna.UI2.WinForms.Guna2Button YagOraniBtn;
         private Guna.UI2.WinForms.Guna2Button WorkoutBtn;
         private Guna.UI2.WinForms.Guna2Button SeansBtn;
-        private Guna.UI2.WinForms.Guna2Button UyelikBtn;
         private System.Windows.Forms.PictureBox pictureBox1;
         private Guna.UI2.WinForms.Guna2Button GOdemelerBtn;
         private System.Windows.Forms.DataGridView appointmentsDataGridView;
